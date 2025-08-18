@@ -43,9 +43,6 @@ export function PublicHeader() {
         <Button variant="outline" asChild>
           <Link href="/login">Login</Link>
         </Button>
-        <Button asChild>
-          <Link href="/register">Register</Link>
-        </Button>
       </div>
       <Sheet>
         <SheetTrigger asChild>
@@ -77,12 +74,9 @@ export function PublicHeader() {
                     </Link>
                 ))}
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2">
                  <Button variant="outline" asChild>
                     <Link href="/login">Login</Link>
-                 </Button>
-                 <Button asChild>
-                    <Link href="/register">Register</Link>
                  </Button>
             </div>
           </div>

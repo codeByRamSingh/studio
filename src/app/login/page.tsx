@@ -72,12 +72,6 @@ export default function LoginPage() {
             </Button>
           </CardContent>
           <CardFooter className="flex flex-col">
-            <p className="mt-2 text-center text-xs text-muted-foreground">
-              Don't have an account?{" "}
-              <Link href="/register" className="underline">
-                Register
-              </Link>
-            </p>
           </CardFooter>
         </form>
       </Card>
