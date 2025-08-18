@@ -5,9 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, BookOpen, Image, Info, Home } from "lucide-react";
+import { Menu, BookOpen, Image, Info, Home, LayoutGrid } from "lucide-react";
 import { ArvindConnectLogo } from "./icons";
 import { cn } from "@/lib/utils";
+import { UserNav } from "./user-nav";
 
 const mainNavLinks = [
   { href: "/", label: "Home", icon: Home },
@@ -16,7 +17,7 @@ const mainNavLinks = [
   { href: "/about", label: "About Us", icon: Info },
 ];
 
-export function PublicHeader() {
+export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
   const pathname = usePathname();
 
   return (
@@ -40,9 +41,18 @@ export function PublicHeader() {
         ))}
       </nav>
       <div className="hidden items-center gap-2 md:flex">
-        <Button variant="outline" asChild>
-          <Link href="/login">Login</Link>
-        </Button>
+        {loggedIn ? (
+          <>
+            <Button variant="ghost" asChild>
+                <Link href="/dashboard">Dashboard</Link>
+            </Button>
+            <UserNav />
+          </>
+        ) : (
+          <Button variant="outline" asChild>
+            <Link href="/login">Login</Link>
+          </Button>
+        )}
       </div>
       <Sheet>
         <SheetTrigger asChild>
@@ -73,11 +83,29 @@ export function PublicHeader() {
                     {link.label}
                     </Link>
                 ))}
+                {loggedIn && (
+                  <Link
+                    href="/dashboard"
+                    className={cn(
+                        "flex items-center gap-2 rounded-md p-2 text-base font-medium",
+                        pathname === "/dashboard"
+                        ? "bg-accent text-accent-foreground"
+                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    )}
+                  >
+                    <LayoutGrid className="h-5 w-5" />
+                    Dashboard
+                  </Link>
+                )}
             </div>
             <div className="grid grid-cols-1 gap-2">
-                 <Button variant="outline" asChild>
-                    <Link href="/login">Login</Link>
-                 </Button>
+                 {loggedIn ? (
+                   <UserNav />
+                 ) : (
+                   <Button variant="outline" asChild>
+                      <Link href="/login">Login</Link>
+                   </Button>
+                 )}
             </div>
           </div>
         </SheetContent>
