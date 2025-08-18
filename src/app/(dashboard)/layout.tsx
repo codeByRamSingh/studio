@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { UserNav } from "@/components/user-nav";
 
 export default function DashboardLayout({
   children,
@@ -32,11 +33,9 @@ export default function DashboardLayout({
       <SidebarInset>
         <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm sm:justify-end">
           <SidebarTrigger className="sm:hidden" />
-          <div className="flex items-center gap-2">
-            <Button asChild variant="outline">
-              <Link href="/">Logout</Link>
-            </Button>
-          </div>
+           <div className="ml-auto flex items-center gap-4">
+              <UserNav />
+           </div>
         </header>
         <main className="flex-1 p-4 md:p-6 lg:p-8">{children}</main>
       </SidebarInset>

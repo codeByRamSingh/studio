@@ -8,31 +8,39 @@ import {
 } from "@/components/ui/sidebar";
 import {
   Home,
-  Book,
-  Image,
-  Info
+  LayoutGrid,
+  BookOpen,
+  Users,
+  FileText,
+  Calendar,
+  Share2
 } from "lucide-react";
 
 const links = [
   {
     href: "/dashboard",
-    label: "Home",
-    icon: Home,
+    label: "Dashboard",
+    icon: LayoutGrid,
   },
   {
-    href: "/courses",
-    label: "Courses",
-    icon: Book,
+    href: "/study-groups",
+    label: "Study Groups",
+    icon: Users,
   },
   {
-    href: "/gallery",
-    label: "Gallery",
-    icon: Image,
+    href: "/resources",
+    label: "Resources",
+    icon: Share2,
+  },
+   {
+    href: "/events",
+    label: "Events",
+    icon: Calendar,
   },
   {
-    href: "/about",
-    label: "About US",
-    icon: Info,
+    href: "/notices",
+    label: "Notices",
+    icon: FileText,
   },
 ];
 
@@ -45,8 +53,6 @@ export function MainNav() {
         <SidebarMenuItem key={link.href}>
           <SidebarMenuButton
             asChild
-            // A simple way to check for active link.
-            // For the dashboard, we want an exact match. For others, we check if the path starts with the href.
             isActive={pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href))}
           >
             <a href={link.href}>
