@@ -16,14 +16,6 @@ export default function HomePage() {
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                 Your future starts here.
               </p>
-               <div className="flex justify-center gap-4">
-                  <Button asChild>
-                    <Link href="/login">Login</Link>
-                  </Button>
-                  <Button asChild variant="secondary">
-                    <Link href="/register">Register</Link>
-                  </Button>
-                </div>
             </div>
           </div>
         </section>
