@@ -17,7 +17,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        title="Arvind ITI"
+        title="Home"
         description="Here's a quick overview of what's happening at Arvind ITI."
       />
 

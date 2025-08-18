@@ -7,38 +7,32 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import {
-  LayoutDashboard,
-  CalendarDays,
-  Megaphone,
-  Users,
-  BookOpen,
+  Home,
+  Book,
+  Image,
+  Info
 } from "lucide-react";
 
 const links = [
   {
     href: "/dashboard",
-    label: "Dashboard",
-    icon: LayoutDashboard,
+    label: "Home",
+    icon: Home,
   },
   {
-    href: "/events",
-    label: "Events",
-    icon: CalendarDays,
+    href: "/courses",
+    label: "Courses",
+    icon: Book,
   },
   {
-    href: "/notices",
-    label: "Notices",
-    icon: Megaphone,
+    href: "/gallery",
+    label: "Gallery",
+    icon: Image,
   },
   {
-    href: "/study-groups",
-    label: "Study Groups",
-    icon: Users,
-  },
-  {
-    href: "/resources",
-    label: "Resources",
-    icon: BookOpen,
+    href: "/about",
+    label: "About US",
+    icon: Info,
   },
 ];
 
