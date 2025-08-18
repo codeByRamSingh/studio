@@ -8,8 +8,6 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export default function MainLayout({
   children,
@@ -33,12 +31,7 @@ export default function MainLayout({
         <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm sm:justify-end">
           <SidebarTrigger className="sm:hidden" />
           <div className="flex items-center gap-2">
-            <Button variant="outline" asChild>
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/register">Register</Link>
-            </Button>
+            {/* User Account Dropdown or other actions can go here */}
           </div>
         </header>
         <main className="flex-1 p-4 md:p-6 lg:p-8">{children}</main>
