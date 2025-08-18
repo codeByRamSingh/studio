@@ -16,7 +16,7 @@ import {
 
 const links = [
   {
-    href: "/",
+    href: "/dashboard",
     label: "Dashboard",
     icon: LayoutDashboard,
   },
@@ -53,7 +53,7 @@ export function MainNav() {
             asChild
             // A simple way to check for active link.
             // For the dashboard, we want an exact match. For others, we check if the path starts with the href.
-            isActive={pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))}
+            isActive={pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href))}
           >
             <a href={link.href}>
               <link.icon />
