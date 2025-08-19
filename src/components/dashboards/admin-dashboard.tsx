@@ -26,7 +26,7 @@ const adminActions = [
       title: "Register User",
       description: "Add or manage user accounts and roles.",
       icon: UserPlus,
-      href: "/users",
+      href: "/users/select-role",
     },
     {
       title: "Submit Fee",

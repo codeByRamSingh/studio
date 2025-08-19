@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,10 +25,18 @@ import { PageHeader } from "@/components/page-header";
 
 export default function AddUserPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { toast } = useToast();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+
+  useEffect(() => {
+    const roleFromQuery = searchParams.get('role');
+    if (roleFromQuery) {
+        setRole(roleFromQuery);
+    }
+  }, [searchParams]);
 
   const handleAddUser = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +68,7 @@ export default function AddUserPage() {
         <Card className="w-full max-w-md">
             <form onSubmit={handleAddUser}>
             <CardHeader>
-                <CardTitle className="text-2xl">Create an account</CardTitle>
+                <CardTitle className="text-2xl">Create an account for {role}</CardTitle>
                 <CardDescription>
                 Enter the details below to create a new user account.
                 </CardDescription>
@@ -89,7 +97,7 @@ export default function AddUserPage() {
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="role">Role</Label>
-                    <Select value={role} onValueChange={setRole} required>
+                    <Select value={role} onValueChange={setRole} required disabled>
                         <SelectTrigger id="role">
                             <SelectValue placeholder="Select a role" />
                         </SelectTrigger>
