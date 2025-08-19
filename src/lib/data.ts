@@ -8,8 +8,8 @@ export const users = [
   },
    {
     id: 2,
-    username: "rama",
-    password: "rama",
+    username: "STU1",
+    password: "rama123",
     role: "Student",
   }
 ];

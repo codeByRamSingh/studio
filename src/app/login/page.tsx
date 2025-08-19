@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -60,7 +61,7 @@ export default function LoginPage() {
                 <Input
                   id="username"
                   type="text"
-                  placeholder="e.g. rama"
+                  placeholder="e.g. STU1"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
