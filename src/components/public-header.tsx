@@ -21,6 +21,7 @@ const mainNavLinks = [
 export function PublicHeader() {
   const pathname = usePathname();
   const { user } = useUser();
+  const isHomePage = pathname === "/";
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
@@ -41,26 +42,17 @@ export function PublicHeader() {
             {link.label}
           </Link>
         ))}
-         {user && user.role === 'Admin' && (
-          <Link
-            href="/users"
-            className={cn(
-              "transition-colors hover:text-primary",
-              pathname === "/users" ? "text-primary" : "text-muted-foreground"
-            )}
-          >
-            Users
-          </Link>
-        )}
       </nav>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-4">
           {user ? (
             <UserNav />
-          ) : (
+          ) : isHomePage ? (
             <Button variant="outline" asChild>
               <Link href="/login">Login</Link>
             </Button>
+          ) : (
+            <div className="w-[78px]"></div>
           )}
         </div>
         <Sheet>
@@ -92,19 +84,6 @@ export function PublicHeader() {
                       {link.label}
                       </Link>
                   ))}
-                  {user && user.role === 'Admin' && (
-                  <Link
-                    href="/users"
-                    className={cn(
-                        "flex items-center gap-2 rounded-md p-2 text-base font-medium",
-                        pathname.startsWith("/users")
-                        ? "bg-accent text-accent-foreground"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    )}
-                  >
-                    Users
-                  </Link>
-                )}
               </div>
               <div className="grid grid-cols-1 gap-2">
                    {user ? (
