@@ -54,7 +54,7 @@ export function PublicHeader() {
         )}
       </nav>
       <div className="flex items-center gap-4">
-        <div className="hidden md:flex">
+        <div className="flex items-center gap-4">
           {user ? (
             <UserNav />
           ) : (
