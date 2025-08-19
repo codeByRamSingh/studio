@@ -14,7 +14,7 @@ export default function HomePage() {
                 Welcome to Arvind ITI
               </h1>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                Your future starts here.
+                Your future starts here. Please use the login button in the navigation bar to access your dashboard.
               </p>
             </div>
           </div>
