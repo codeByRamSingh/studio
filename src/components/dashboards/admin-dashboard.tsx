@@ -8,8 +8,69 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PlusCircle } from "lucide-react";
+import {
+  UserPlus,
+  Receipt,
+  Megaphone,
+  FileText,
+  DollarSign,
+  Archive,
+  BookOpen,
+  FlaskConical,
+  ArrowRight
+} from "lucide-react";
 import Link from "next/link";
+
+const adminActions = [
+    {
+      title: "Register User",
+      description: "Add or manage user accounts and roles.",
+      icon: UserPlus,
+      href: "/users",
+    },
+    {
+      title: "Submit Fee",
+      description: "Record and manage student fee payments.",
+      icon: Receipt,
+      href: "#",
+    },
+    {
+      title: "Issue Notice",
+      description: "Create and publish announcements for all users.",
+      icon: Megaphone,
+      href: "/notices",
+    },
+    {
+      title: "Launch Exam",
+      description: "Schedule and manage examinations for courses.",
+      icon: FileText,
+      href: "#",
+    },
+    {
+      title: "Add Expense",
+      description: "Track and manage institutional expenses.",
+      icon: DollarSign,
+      href: "#",
+    },
+    {
+      title: "Manage Assets",
+      description: "Keep track of all physical assets of the institute.",
+      icon: Archive,
+      href: "#",
+    },
+    {
+      title: "Manage Library",
+      description: "Manage book inventory and library memberships.",
+      icon: BookOpen,
+      href: "#",
+    },
+    {
+      title: "Manage Lab",
+      description: "Oversee laboratory equipment and resources.",
+      icon: FlaskConical,
+      href: "#",
+    },
+  ];
 
 export function AdminDashboard() {
   return (
@@ -18,53 +79,27 @@ export function AdminDashboard() {
         title="Admin Dashboard"
         description="System overview and management tools."
       />
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="flex flex-col">
-          <CardHeader>
-            <CardTitle>User Management</CardTitle>
-            <CardDescription>
-              Add new users and manage existing user roles and permissions.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex-grow" />
-          <CardFooter>
-            <Button asChild className="w-full">
-              <Link href="/users">
-                <PlusCircle className="mr-2" />
-                Manage Users
-              </Link>
-            </Button>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>System Analytics</CardTitle>
-            <CardDescription>
-              View real-time analytics and system health.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* Placeholder for analytics */}
-            <p>Analytics content goes here.</p>
-          </CardContent>
-        </Card>
-         <Card>
-          <CardHeader>
-            <CardTitle>Global Notices</CardTitle>
-            <CardDescription>
-              Create and publish announcements for all users.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-             {/* Placeholder for notices */}
-             <p>Notice creation form goes here.</p>
-          </CardContent>
-           <CardFooter>
-            <Button className="w-full">
-              Create Notice
-            </Button>
-          </CardFooter>
-        </Card>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {adminActions.map((action) => (
+            <Card key={action.title} className="flex flex-col">
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    <CardTitle className="text-lg font-medium">
+                        {action.title}
+                    </CardTitle>
+                    <action.icon className="h-6 w-6 text-muted-foreground" />
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className="text-sm text-muted-foreground">{action.description}</p>
+                </CardContent>
+                <CardFooter>
+                    <Button asChild className="w-full">
+                    <Link href={action.href}>
+                        Go to {action.title} <ArrowRight className="ml-2 size-4" />
+                    </Link>
+                    </Button>
+                </CardFooter>
+            </Card>
+        ))}
       </div>
     </div>
   );
