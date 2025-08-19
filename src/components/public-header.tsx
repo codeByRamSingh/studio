@@ -18,7 +18,7 @@ const mainNavLinks = [
   { href: "/about", label: "About Us", icon: Info },
 ];
 
-export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
+export function PublicHeader() {
   const pathname = usePathname();
   const { user } = useUser();
 
