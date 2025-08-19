@@ -1,3 +1,18 @@
+export const users = [
+  {
+    id: 1,
+    username: "admin",
+    password: "admin",
+    role: "Admin",
+  },
+   {
+    id: 2,
+    username: "rama",
+    password: "rama",
+    role: "Student",
+  }
+];
+
 export const events = [
   {
     id: 1,

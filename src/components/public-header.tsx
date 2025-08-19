@@ -40,7 +40,7 @@ export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
           </Link>
         ))}
       </nav>
-      <div className="hidden items-center gap-2 md:flex">
+      <div className="hidden items-center gap-4 md:flex">
         {loggedIn ? (
           <>
             <Button variant="ghost" asChild>
@@ -49,9 +49,14 @@ export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
             <UserNav />
           </>
         ) : (
-          <Button variant="outline" asChild>
-            <Link href="/login">Login</Link>
-          </Button>
+          <>
+            <Button variant="outline" asChild>
+                <Link href="/login">Login</Link>
+            </Button>
+            <Button asChild>
+                <Link href="/register">Register</Link>
+            </Button>
+          </>
         )}
       </div>
       <Sheet>
@@ -102,9 +107,14 @@ export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
                  {loggedIn ? (
                    <UserNav />
                  ) : (
-                   <Button variant="outline" asChild>
+                  <div className="flex flex-col gap-2">
+                    <Button variant="outline" asChild>
                       <Link href="/login">Login</Link>
-                   </Button>
+                    </Button>
+                     <Button asChild>
+                        <Link href="/register">Register</Link>
+                    </Button>
+                  </div>
                  )}
             </div>
           </div>
