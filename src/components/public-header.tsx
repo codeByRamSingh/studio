@@ -9,6 +9,7 @@ import { Menu, BookOpen, Image, Info, Home, LayoutGrid } from "lucide-react";
 import { ArvindConnectLogo } from "./icons";
 import { cn } from "@/lib/utils";
 import { UserNav } from "./user-nav";
+import { useUser } from "@/hooks/use-user";
 
 const mainNavLinks = [
   { href: "/", label: "Home", icon: Home },
@@ -19,6 +20,7 @@ const mainNavLinks = [
 
 export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
   const pathname = usePathname();
+  const { user } = useUser();
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
@@ -41,7 +43,7 @@ export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
         ))}
       </nav>
       <div className="hidden items-center gap-4 md:flex">
-        {loggedIn ? (
+        {user ? (
           <>
             <Button variant="ghost" asChild>
                 <Link href="/dashboard">Dashboard</Link>
@@ -52,9 +54,6 @@ export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
           <>
             <Button variant="outline" asChild>
                 <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild>
-                <Link href="/register">Register</Link>
             </Button>
           </>
         )}
@@ -88,7 +87,7 @@ export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
                     {link.label}
                     </Link>
                 ))}
-                {loggedIn && (
+                {user && (
                   <Link
                     href="/dashboard"
                     className={cn(
@@ -104,15 +103,12 @@ export function PublicHeader({ loggedIn = false }: { loggedIn?: boolean }) {
                 )}
             </div>
             <div className="grid grid-cols-1 gap-2">
-                 {loggedIn ? (
+                 {user ? (
                    <UserNav />
                  ) : (
                   <div className="flex flex-col gap-2">
                     <Button variant="outline" asChild>
                       <Link href="/login">Login</Link>
-                    </Button>
-                     <Button asChild>
-                        <Link href="/register">Register</Link>
                     </Button>
                   </div>
                  )}

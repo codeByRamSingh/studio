@@ -13,8 +13,10 @@ import {
   Users,
   FileText,
   Calendar,
-  Share2
+  Share2,
+  UserPlus
 } from "lucide-react";
+import { useUser } from "@/hooks/use-user";
 
 const links = [
   {
@@ -44,12 +46,23 @@ const links = [
   },
 ];
 
+const adminLinks = [
+    {
+        href: "/users",
+        label: "Users",
+        icon: UserPlus,
+    }
+]
+
 export function MainNav() {
   const pathname = usePathname();
+  const { user } = useUser();
+
+  const navLinks = user?.role === 'Admin' ? [...links, ...adminLinks] : links;
 
   return (
     <SidebarMenu>
-      {links.map((link) => (
+      {navLinks.map((link) => (
         <SidebarMenuItem key={link.href}>
           <SidebarMenuButton
             asChild

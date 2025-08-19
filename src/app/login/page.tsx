@@ -7,13 +7,11 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { users } from "@/lib/data";
 
@@ -31,6 +29,7 @@ export default function LoginPage() {
 
     if (user) {
       // In a real app, you'd set a session/token here
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
       router.push("/dashboard");
     } else {
       toast({
@@ -77,14 +76,6 @@ export default function LoginPage() {
               Login
             </Button>
           </CardContent>
-          <CardFooter className="flex flex-col text-center text-sm">
-            <p className="text-muted-foreground">
-                Don&apos;t have an account?{" "}
-                <Link href="/register" className="text-primary hover:underline">
-                    Register
-                </Link>
-            </p>
-          </CardFooter>
         </form>
       </Card>
     </div>
