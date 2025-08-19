@@ -9,13 +9,18 @@ export default function HomePage() {
       <main className="flex-1">
         <section className="flex h-[calc(100vh-4rem)] w-full items-center justify-center bg-background">
           <div className="container px-4 text-center md:px-6">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
                 Welcome to Arvind ITI
               </h1>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                Your future starts here. Please use the login button in the navigation bar to access your dashboard.
+                Your future starts here. Please login to access your dashboard.
               </p>
+              <div className="flex justify-center">
+                <Button asChild>
+                  <Link href="/login">Login</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
