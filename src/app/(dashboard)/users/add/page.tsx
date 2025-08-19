@@ -158,10 +158,6 @@ export default function AddUserPage() {
                 <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="address">Address</Label>
-                <Textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
-            </div>
-            <div className="grid gap-2">
                 <Label htmlFor="caste">Caste</Label>
                 <Input id="caste" value={caste} onChange={(e) => setCaste(e.target.value)} required />
             </div>
@@ -185,6 +181,10 @@ export default function AddUserPage() {
                 <Label htmlFor="fee">Fee</Label>
                 <Input id="fee" type="number" value={fee} onChange={(e) => setFee(e.target.value)} required />
             </div>
+        </div>
+        <div className="grid gap-2 md:col-span-2">
+            <Label htmlFor="address">Address</Label>
+            <Textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
         </div>
 
         <div className="mt-4 text-sm text-muted-foreground">
@@ -210,10 +210,10 @@ export default function AddUserPage() {
     <div className="space-y-8">
         <PageHeader title="Add New User" description="Create a new user account and assign a role." />
         <div className="flex justify-center">
-            <Card className="w-full max-w-2xl">
+            <Card className="w-full max-w-3xl">
                 <form onSubmit={handleAddUser}>
                     <CardHeader>
-                        <CardTitle className="text-2xl">Create an account for {role}</CardTitle>
+                        <CardTitle className="text-2xl">Create an account for {role || '...'}</CardTitle>
                         <CardDescription>
                             Enter the details below to create a new user account.
                         </CardDescription>
