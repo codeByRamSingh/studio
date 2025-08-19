@@ -16,11 +16,6 @@ export default function HomePage() {
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                 Your future starts here. Please login to access your dashboard.
               </p>
-              <div className="flex justify-center">
-                <Button asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
-              </div>
             </div>
           </div>
         </section>
