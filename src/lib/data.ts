@@ -1,3 +1,4 @@
+
 export const users = [
   {
     id: 1,
@@ -11,6 +12,25 @@ export const users = [
     password: "rama",
     role: "Student",
   }
+];
+
+export const students = [
+    {
+        id: 1,
+        studentId: 'STU1',
+        studentName: 'Rama',
+        fatherName: 'Dasaratha',
+        motherName: 'Kausalya',
+        address: 'Ayodhya',
+        email: 'rama@example.com',
+        phone: '1234567890',
+        caste: 'General',
+        religion: 'Hindu',
+        dob: '2005-01-01',
+        gender: 'Male',
+        course: 'Electrician',
+        fee: 50000,
+    }
 ];
 
 export const events = [
