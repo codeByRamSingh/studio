@@ -44,12 +44,7 @@ export function PublicHeader() {
       </nav>
       <div className="hidden items-center gap-4 md:flex">
         {user ? (
-          <>
-            <Button variant="ghost" asChild>
-                <Link href="/dashboard">Dashboard</Link>
-            </Button>
-            <UserNav />
-          </>
+          <UserNav />
         ) : (
           <>
             <Button variant="outline" asChild>
@@ -92,7 +87,7 @@ export function PublicHeader() {
                     href="/dashboard"
                     className={cn(
                         "flex items-center gap-2 rounded-md p-2 text-base font-medium",
-                        pathname === "/dashboard"
+                        pathname.startsWith("/dashboard")
                         ? "bg-accent text-accent-foreground"
                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                     )}
