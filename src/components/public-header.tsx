@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, BookOpen, Image, Info, Home, LayoutGrid } from "lucide-react";
+import { Menu, BookOpen, Image, Info, Home } from "lucide-react";
 import { ArvindConnectLogo } from "./icons";
 import { cn } from "@/lib/utils";
 import { UserNav } from "./user-nav";
@@ -41,76 +41,86 @@ export function PublicHeader() {
             {link.label}
           </Link>
         ))}
-      </nav>
-      <div className="hidden items-center gap-4 md:flex">
-        {user ? (
-          <UserNav />
-        ) : (
-          <>
-            <Button variant="outline" asChild>
-                <Link href="/login">Login</Link>
-            </Button>
-          </>
+         {user && user.role === 'Admin' && (
+          <Link
+            href="/users"
+            className={cn(
+              "transition-colors hover:text-primary",
+              pathname === "/users" ? "text-primary" : "text-muted-foreground"
+            )}
+          >
+            Users
+          </Link>
         )}
-      </div>
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="md:hidden">
-            <Menu className="h-6 w-6" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="right">
-          <div className="grid gap-4 p-4">
-            <Link href="/" className="flex items-center gap-2 font-bold">
-               <ArvindConnectLogo className="h-6 w-6 text-primary" />
-               <span>Arvind ITI</span>
-            </Link>
-            <div className="grid gap-2">
-                {mainNavLinks.map((link) => (
-                    <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                        "flex items-center gap-2 rounded-md p-2 text-base font-medium",
-                        pathname === link.href
-                        ? "bg-accent text-accent-foreground"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    )}
-                    >
-                    <link.icon className="h-5 w-5" />
-                    {link.label}
-                    </Link>
-                ))}
-                {user && (
+      </nav>
+      <div className="flex items-center gap-4">
+        <div className="hidden md:flex">
+          {user ? (
+            <UserNav />
+          ) : (
+            <Button variant="outline" asChild>
+              <Link href="/login">Login</Link>
+            </Button>
+          )}
+        </div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="md:hidden">
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Toggle navigation menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right">
+            <div className="grid gap-4 p-4">
+              <Link href="/" className="flex items-center gap-2 font-bold">
+                 <ArvindConnectLogo className="h-6 w-6 text-primary" />
+                 <span>Arvind ITI</span>
+              </Link>
+              <div className="grid gap-2">
+                  {mainNavLinks.map((link) => (
+                      <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                          "flex items-center gap-2 rounded-md p-2 text-base font-medium",
+                          pathname === link.href
+                          ? "bg-accent text-accent-foreground"
+                          : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      )}
+                      >
+                      <link.icon className="h-5 w-5" />
+                      {link.label}
+                      </Link>
+                  ))}
+                  {user && user.role === 'Admin' && (
                   <Link
-                    href="/dashboard"
+                    href="/users"
                     className={cn(
                         "flex items-center gap-2 rounded-md p-2 text-base font-medium",
-                        pathname.startsWith("/dashboard")
+                        pathname.startsWith("/users")
                         ? "bg-accent text-accent-foreground"
                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                     )}
                   >
-                    <LayoutGrid className="h-5 w-5" />
-                    Dashboard
+                    Users
                   </Link>
                 )}
+              </div>
+              <div className="grid grid-cols-1 gap-2">
+                   {user ? (
+                     <UserNav />
+                   ) : (
+                    <div className="flex flex-col gap-2">
+                      <Button variant="outline" asChild>
+                        <Link href="/login">Login</Link>
+                      </Button>
+                    </div>
+                   )}
+              </div>
             </div>
-            <div className="grid grid-cols-1 gap-2">
-                 {user ? (
-                   <UserNav />
-                 ) : (
-                  <div className="flex flex-col gap-2">
-                    <Button variant="outline" asChild>
-                      <Link href="/login">Login</Link>
-                    </Button>
-                  </div>
-                 )}
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
+          </SheetContent>
+        </Sheet>
+      </div>
     </header>
   );
 }
