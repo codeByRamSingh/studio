@@ -10,6 +10,7 @@ import { ArvindConnectLogo } from "./icons";
 import { cn } from "@/lib/utils";
 import { UserNav } from "./user-nav";
 import { useUser } from "@/hooks/use-user";
+import { MainNav } from "./main-nav";
 
 const mainNavLinks = [
   { href: "/", label: "Home", icon: Home },
@@ -47,12 +48,10 @@ export function PublicHeader() {
         <div className="flex items-center gap-4">
           {user ? (
             <UserNav />
-          ) : isHomePage ? (
+          ) : (
             <Button variant="outline" asChild>
               <Link href="/login">Login</Link>
             </Button>
-          ) : (
-            <div className="w-[78px]"></div>
           )}
         </div>
         <Sheet>
@@ -85,17 +84,13 @@ export function PublicHeader() {
                       </Link>
                   ))}
               </div>
-              <div className="grid grid-cols-1 gap-2">
-                   {user ? (
-                     <UserNav />
-                   ) : (
-                    <div className="flex flex-col gap-2">
-                      <Button variant="outline" asChild>
-                        <Link href="/login">Login</Link>
-                      </Button>
-                    </div>
-                   )}
-              </div>
+               {user && (
+                <>
+                  <hr/>
+                  <div className="font-semibold">Dashboard Menu</div>
+                  <MainNav />
+                </>
+               )}
             </div>
           </SheetContent>
         </Sheet>
