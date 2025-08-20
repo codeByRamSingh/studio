@@ -9,7 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  UserPlus,
+  GraduationCap,
+  Users,
   Receipt,
   Megaphone,
   FileText,
@@ -23,10 +24,16 @@ import Link from "next/link";
 
 const adminActions = [
     {
-      title: "Register User",
-      description: "Add or manage user accounts and roles.",
-      icon: UserPlus,
-      href: "/users/select-role",
+      title: "Student Management",
+      description: "Manage student admissions, profiles, and records.",
+      icon: GraduationCap,
+      href: "/users/select-role?role=Student",
+    },
+    {
+      title: "Staff Management",
+      description: "Manage staff accounts, roles, and information.",
+      icon: Users,
+      href: "/users/select-role?role=Staff",
     },
     {
       title: "Submit Fee",
