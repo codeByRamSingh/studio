@@ -23,9 +23,12 @@ export type Staff = {
     id: number;
     staffId: string;
     staffName: string;
+    permanentAddress: string;
+    currentAddress: string;
     email: string;
     phone: string;
-    role: string;
+    designation: string;
+    salary: number;
     dateJoined: Date;
 }
 
@@ -67,9 +70,12 @@ export let staff: Staff[] = [
         id: 1,
         staffId: 'staff01',
         staffName: 'Mr. Sharma',
+        permanentAddress: '123, Old City, Lucknow',
+        currentAddress: '456, New City, Lucknow',
         email: 'sharma@example.com',
         phone: '1122334455',
-        role: 'Teacher',
+        designation: 'Teacher',
+        salary: 50000,
         dateJoined: new Date('2022-08-01'),
     }
 ];

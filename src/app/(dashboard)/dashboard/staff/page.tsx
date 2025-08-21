@@ -96,7 +96,7 @@ export default function StaffManagementPage() {
                 <TableHead>Staff Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Phone</TableHead>
-                <TableHead>Role</TableHead>
+                <TableHead>Designation</TableHead>
                 <TableHead>Date Joined</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -111,7 +111,7 @@ export default function StaffManagementPage() {
                   <TableCell>{staffMember.email}</TableCell>
                   <TableCell>{staffMember.phone}</TableCell>
                   <TableCell>
-                    <Badge variant="outline">{staffMember.role}</Badge>
+                    <Badge variant="outline">{staffMember.designation}</Badge>
                   </TableCell>
                    <TableCell>{format(staffMember.dateJoined, "PPP")}</TableCell>
                   <TableCell className="text-right">

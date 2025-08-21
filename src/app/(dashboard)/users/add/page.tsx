@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -21,10 +22,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { users, students } from "@/lib/data";
+import { users, students, staff } from "@/lib/data";
 import { PageHeader } from "@/components/page-header";
 import { Textarea } from "@/components/ui/textarea";
-import type { Student } from "@/lib/data";
+import type { Student, Staff } from "@/lib/data";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function AddUserPage() {
@@ -32,9 +33,6 @@ export default function AddUserPage() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   
-  // Generic user state
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
   // Student specific state
@@ -49,6 +47,14 @@ export default function AddUserPage() {
   const [gender, setGender] = useState("");
   const [physicallyDisabled, setPhysicallyDisabled] = useState("No");
 
+  // Staff specific state
+  const [staffName, setStaffName] = useState("");
+  const [permanentAddress, setPermanentAddress] = useState("");
+  const [currentAddress, setCurrentAddress] = useState("");
+  const [staffEmail, setStaffEmail] = useState("");
+  const [staffPhone, setStaffPhone] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [salary, setSalary] = useState<number | string>("");
 
   useEffect(() => {
     const roleFromQuery = searchParams.get('role');
@@ -70,12 +76,11 @@ export default function AddUserPage() {
             return;
         }
 
-        // Generate student ID and password
         const studentId = `STU${students.length + 1}`;
         const generatedPassword = `${studentName.split(' ')[0].toLowerCase()}123`;
 
         const newStudent: Student = {
-            id: students.length + 1,
+            id: students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1,
             studentId,
             studentName,
             fatherName,
@@ -87,161 +92,181 @@ export default function AddUserPage() {
             religion,
             gender,
             physicallyDisabled: physicallyDisabled === "Yes",
-            course: '', // Course will be assigned in the next step
-            session: '', // Session will be assigned in the next step
+            course: '',
+            session: '',
+            courseFee: 0,
+            feeHistory: []
         };
         students.push(newStudent);
-
-        const newUser = { id: users.length + 1, username: studentId, password: generatedPassword, role: "Student" };
-        users.push(newUser);
+        users.push({ id: users.length + 1, username: studentId, password: generatedPassword, role: "Student" });
 
         toast({
             title: "Student Details Saved",
             description: `Proceed to assign a course to ${studentName}.`,
         });
-        
         router.push(`/dashboard/students/assign-course/${newStudent.id}`);
 
-    } else {
-        if (!username || !password || !role) {
-            toast({
-                variant: "destructive",
-                title: "Failed to Add User",
-                description: "Please fill in all fields.",
-            });
+    } else if (role === 'Staff') {
+        if (!staffName || !permanentAddress || !currentAddress || !staffEmail || !staffPhone || !designation || !salary) {
+            toast({ variant: "destructive", title: "Failed to Add Staff", description: "Please fill in all staff details." });
             return;
         }
-        const newUser = { id: users.length + 1, username, password, role };
-        users.push(newUser);
-        toast({
-            title: "User Added Successfully",
-            description: `User "${username}" has been created.`,
-        });
-        router.push("/users");
+
+        const staffId = `STAFF${staff.length + 1}`;
+        const generatedPassword = `${staffName.split(' ')[0].toLowerCase()}123`;
+
+        const newStaff: Staff = {
+            id: staff.length > 0 ? Math.max(...staff.map(s => s.id)) + 1 : 1,
+            staffId,
+            staffName,
+            permanentAddress,
+            currentAddress,
+            email: staffEmail,
+            phone: staffPhone,
+            designation,
+            salary: typeof salary === 'string' ? parseFloat(salary) : salary,
+            dateJoined: new Date(),
+        };
+        staff.push(newStaff);
+        users.push({ id: users.length + 1, username: staffId, password: generatedPassword, role: "Staff" });
+
+        toast({ title: "Staff Added Successfully", description: `Staff member "${staffName}" has been created.` });
+        router.push("/dashboard/staff");
     }
   };
 
   const renderStudentForm = () => (
     <>
+        <CardHeader>
+            <CardTitle className="text-2xl">Student Registration - Step 1</CardTitle>
+            <CardDescription>Enter the student's personal details to begin enrollment. Course selection is the next step.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+            <input type="hidden" name="role" value="Student" />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="grid gap-2">
+                    <Label htmlFor="studentName">Student Name</Label>
+                    <Input id="studentName" value={studentName} onChange={(e) => setStudentName(e.target.value)} required />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="fatherName">Father's Name</Label>
+                    <Input id="fatherName" value={fatherName} onChange={(e) => setFatherName(e.target.value)} required />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="motherName">Mother's Name</Label>
+                    <Input id="motherName" value={motherName} onChange={(e) => setMotherName(e.target.value)} required />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="phone">Mobile Number</Label>
+                    <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="email">Email ID</Label>
+                    <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="caste">Caste</Label>
+                    <Input id="caste" value={caste} onChange={(e) => setCaste(e.target.value)} required />
+                </div>
+                <div className="grid gap-2">
+                    <Label>Gender</Label>
+                    <RadioGroup defaultValue={gender} onValueChange={setGender} className="flex gap-4">
+                        <div className="flex items-center space-x-2"><RadioGroupItem value="Male" id="male" /><Label htmlFor="male">Male</Label></div>
+                        <div className="flex items-center space-x-2"><RadioGroupItem value="Female" id="female" /><Label htmlFor="female">Female</Label></div>
+                        <div className="flex items-center space-x-2"><RadioGroupItem value="Other" id="other" /><Label htmlFor="other">Other</Label></div>
+                    </RadioGroup>
+                </div>
+                <div className="grid gap-2">
+                    <Label>Physically Disabled</Label>
+                    <RadioGroup defaultValue={physicallyDisabled} onValueChange={setPhysicallyDisabled} className="flex gap-4">
+                        <div className="flex items-center space-x-2"><RadioGroupItem value="Yes" id="pd-yes" /><Label htmlFor="pd-yes">Yes</Label></div>
+                        <div className="flex items-center space-x-2"><RadioGroupItem value="No" id="pd-no" /><Label htmlFor="pd-no">No</Label></div>
+                    </RadioGroup>
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="religion">Religion</Label>
+                    <Select value={religion} onValueChange={setReligion} required>
+                        <SelectTrigger><SelectValue placeholder="Select Religion" /></SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="Hindu">Hindu</SelectItem>
+                            <SelectItem value="Muslim">Muslim</SelectItem>
+                            <SelectItem value="Christian">Christian</SelectItem>
+                            <SelectItem value="Sikh">Sikh</SelectItem>
+                            <SelectItem value="Buddhist">Buddhist</SelectItem>
+                            <SelectItem value="Jain">Jain</SelectItem>
+                            <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+            <div className="grid gap-2 md:col-span-2">
+                <Label htmlFor="address">Address</Label>
+                <Textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
+            </div>
+            <Button className="w-full mt-4" type="submit">Save and Proceed to Course Selection</Button>
+            <div className="mt-4 text-sm text-center text-muted-foreground">A unique Student ID and password will be automatically generated.</div>
+        </CardContent>
+    </>
+  );
+
+  const renderStaffForm = () => (
+    <>
+      <CardHeader>
+        <CardTitle className="text-2xl">Add New Staff Member</CardTitle>
+        <CardDescription>Enter the details below to add a new staff member to the system.</CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-6">
+        <input type="hidden" name="role" value="Staff" />
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="grid gap-2 md:col-span-2">
+                <Label htmlFor="staffName">Name</Label>
+                <Input id="staffName" value={staffName} onChange={(e) => setStaffName(e.target.value)} required />
+            </div>
+            <div className="grid gap-2">
+                <Label htmlFor="staffEmail">Email ID</Label>
+                <Input id="staffEmail" type="email" value={staffEmail} onChange={(e) => setStaffEmail(e.target.value)} required />
+            </div>
+            <div className="grid gap-2">
+                <Label htmlFor="staffPhone">Phone Number</Label>
+                <Input id="staffPhone" type="tel" value={staffPhone} onChange={(e) => setStaffPhone(e.target.value)} required />
+            </div>
+        </div>
+        <div className="grid gap-2">
+            <Label htmlFor="permanentAddress">Permanent Address</Label>
+            <Textarea id="permanentAddress" value={permanentAddress} onChange={(e) => setPermanentAddress(e.target.value)} required />
+        </div>
+        <div className="grid gap-2">
+            <Label htmlFor="currentAddress">Current Address</Label>
+            <Textarea id="currentAddress" value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)} required />
+        </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="grid gap-2">
-                <Label htmlFor="studentName">Student Name</Label>
-                <Input id="studentName" value={studentName} onChange={(e) => setStudentName(e.target.value)} required />
+                <Label htmlFor="designation">Designation / Role</Label>
+                <Input id="designation" value={designation} onChange={(e) => setDesignation(e.target.value)} required />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="fatherName">Father's Name</Label>
-                <Input id="fatherName" value={fatherName} onChange={(e) => setFatherName(e.target.value)} required />
-            </div>
-            <div className="grid gap-2">
-                <Label htmlFor="motherName">Mother's Name</Label>
-                <Input id="motherName" value={motherName} onChange={(e) => setMotherName(e.target.value)} required />
-            </div>
-             <div className="grid gap-2">
-                <Label htmlFor="phone">Mobile Number</Label>
-                <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-            </div>
-            <div className="grid gap-2">
-                <Label htmlFor="email">Email ID</Label>
-                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            </div>
-            <div className="grid gap-2">
-                <Label htmlFor="caste">Caste</Label>
-                <Input id="caste" value={caste} onChange={(e) => setCaste(e.target.value)} required />
-            </div>
-            <div className="grid gap-2">
-                <Label>Gender</Label>
-                <RadioGroup defaultValue={gender} onValueChange={setGender} className="flex gap-4">
-                    <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="Male" id="male" />
-                        <Label htmlFor="male">Male</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="Female" id="female" />
-                        <Label htmlFor="female">Female</Label>
-                    </div>
-                     <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="Other" id="other" />
-                        <Label htmlFor="other">Other</Label>
-                    </div>
-                </RadioGroup>
-            </div>
-            <div className="grid gap-2">
-                <Label>Physically Disabled</Label>
-                <RadioGroup defaultValue={physicallyDisabled} onValueChange={setPhysicallyDisabled} className="flex gap-4">
-                    <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="Yes" id="pd-yes" />
-                        <Label htmlFor="pd-yes">Yes</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="No" id="pd-no" />
-                        <Label htmlFor="pd-no">No</Label>
-                    </div>
-                </RadioGroup>
-            </div>
-            <div className="grid gap-2">
-                 <Label htmlFor="religion">Religion</Label>
-                <Select value={religion} onValueChange={setReligion} required>
-                    <SelectTrigger><SelectValue placeholder="Select Religion" /></SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="Hindu">Hindu</SelectItem>
-                        <SelectItem value="Muslim">Muslim</SelectItem>
-                        <SelectItem value="Christian">Christian</SelectItem>
-                        <SelectItem value="Sikh">Sikh</SelectItem>
-                        <SelectItem value="Buddhist">Buddhist</SelectItem>
-                        <SelectItem value="Jain">Jain</SelectItem>
-                        <SelectItem value="Other">Other</SelectItem>
-                    </SelectContent>
-                </Select>
+                <Label htmlFor="salary">Salary</Label>
+                <Input id="salary" type="number" value={salary} onChange={(e) => setSalary(e.target.value)} required placeholder="e.g. 50000" />
             </div>
         </div>
-        <div className="grid gap-2 md:col-span-2">
-            <Label htmlFor="address">Address</Label>
-            <Textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
-        </div>
-
-        <div className="mt-4 text-sm text-muted-foreground">
-            A unique Student ID and password will be automatically generated. Course selection is the next step.
-        </div>
+        <Button className="w-full mt-4" type="submit">Add Staff Member</Button>
+         <div className="mt-4 text-sm text-center text-muted-foreground">A unique Staff ID and password will be automatically generated.</div>
+      </CardContent>
     </>
   );
     
-  const renderGenericUserForm = () => (
-    <>
-        <div className="grid gap-2">
-            <Label htmlFor="username">Username</Label>
-            <Input id="username" type="text" placeholder="e.g. john.doe" value={username} onChange={(e) => setUsername(e.target.value)} required />
-        </div>
-        <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-    </>
-  );
-
   return (
     <div className="space-y-8">
-        <PageHeader title="Student Registration" description="Enter the student's personal details to begin enrollment." />
-        <div className="flex justify-center">
-            <Card className="w-full max-w-3xl">
-                <form onSubmit={handleAddUser}>
-                    <CardHeader>
-                        <CardTitle className="text-2xl">Create an account for a Student</CardTitle>
-                        <CardDescription>
-                           Enter the details below. Course selection is the next step.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="grid gap-4">
-                        <input type="hidden" name="role" value="Student" />
-                        
-                        {role === 'Student' ? renderStudentForm() : renderGenericUserForm()}
-
-                        <Button className="w-full mt-4" type="submit">
-                            Save and Proceed to Course Selection
-                        </Button>
-                    </CardContent>
-                </form>
-            </Card>
-        </div>
+      <PageHeader title={role === 'Staff' ? 'Add Staff' : 'Student Registration'} description={role === 'Staff' ? 'Add a new staff member.' : "Begin the student enrollment process."} />
+      <div className="flex justify-center">
+        <Card className="w-full max-w-3xl">
+          <form onSubmit={handleAddUser}>
+            {role === 'Student' && renderStudentForm()}
+            {role === 'Staff' && renderStaffForm()}
+            {/* Fallback for other roles can be added here if needed */}
+          </form>
+        </Card>
+      </div>
     </div>
   );
 }
