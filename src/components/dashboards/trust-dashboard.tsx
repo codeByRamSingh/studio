@@ -25,7 +25,7 @@ import {
   } from "@/components/ui/chart"
 import { students } from "@/lib/data";
 import { format } from "date-fns";
-import { PieChart, Pie, Cell, Legend } from 'recharts';
+import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 
 type CourseData = {
     name: string;
@@ -137,7 +137,7 @@ export function TrustDashboard() {
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalSubmittedFee)}</TableCell>
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalDue)}</TableCell>
                         </TableRow>
-                    </TableFooter>.
+                    </TableFooter>
                 </Table>
             </CardContent>
         </Card>
