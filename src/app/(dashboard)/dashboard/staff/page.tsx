@@ -124,6 +124,9 @@ export default function StaffManagementPage() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                           <DropdownMenuItem asChild>
+                            <Link href={`/dashboard/staff/view/${staffMember.id}`}>View Staff</Link>
+                          </DropdownMenuItem>
                           <DropdownMenuItem>
                             Edit Staff
                           </DropdownMenuItem>
