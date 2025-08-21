@@ -1,3 +1,6 @@
+
+"use client";
+
 import { PageHeader } from "@/components/page-header";
 import {
   Card,
@@ -8,16 +11,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { events, notices } from "@/lib/data";
+import { events, notices, students } from "@/lib/data";
 import { ArrowRight, Calendar, Megaphone } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
+import { useUser } from "@/hooks/use-user";
 
 export function StudentDashboard() {
+  const { user } = useUser();
+  const student = user ? students.find(s => s.studentId === user.username) : null;
+  const dashboardTitle = student ? `${student.studentName}'s Dashboard` : "Student Dashboard";
+
   return (
     <div className="space-y-8">
       <PageHeader
-        title="Student Dashboard"
+        title={dashboardTitle}
         description="Here's a quick overview of what's happening at Arvind ITI."
       />
 
