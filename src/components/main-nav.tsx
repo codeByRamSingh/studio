@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -11,6 +12,7 @@ import {
   UserPlus,
   BookOpen,
   GraduationCap,
+  Briefcase,
 } from "lucide-react";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
@@ -64,6 +66,12 @@ const adminLinks = [
       href: "/dashboard/students",
       label: "Students",
       icon: GraduationCap,
+      roles: ["Admin"],
+    },
+     {
+      href: "/dashboard/staff",
+      label: "Staff",
+      icon: Briefcase,
       roles: ["Admin"],
     }
 ]

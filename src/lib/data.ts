@@ -19,6 +19,16 @@ export type Student = {
     feeHistory: { amount: number; date: Date }[];
 };
 
+export type Staff = {
+    id: number;
+    staffId: string;
+    staffName: string;
+    email: string;
+    phone: string;
+    role: string;
+    dateJoined: Date;
+}
+
 export const users = [
   {
     id: 1,
@@ -43,7 +53,25 @@ export const users = [
     username: "trust01",
     password: "trust01",
     role: "Trust",
+  },
+  {
+    id: 5,
+    username: "staff01",
+    password: "staff",
+    role: "Staff",
   }
+];
+
+export let staff: Staff[] = [
+    {
+        id: 1,
+        staffId: 'staff01',
+        staffName: 'Mr. Sharma',
+        email: 'sharma@example.com',
+        phone: '1122334455',
+        role: 'Teacher',
+        dateJoined: new Date('2022-08-01'),
+    }
 ];
 
 export let students: Student[] = [

@@ -1,3 +1,4 @@
+
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +33,7 @@ const adminActions = [
       title: "Staff Management",
       description: "Manage staff accounts, roles, and information.",
       icon: Users,
-      href: "/users/select-role?role=Staff",
+      href: "/dashboard/staff",
     },
     {
         title: "Course Management",
