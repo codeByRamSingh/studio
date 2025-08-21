@@ -37,6 +37,12 @@ export const users = [
     username: "STU2",
     password: "seeta123",
     role: "Student",
+  },
+  {
+    id: 4,
+    username: "trust01",
+    password: "trust01",
+    role: "Trust",
   }
 ];
 
