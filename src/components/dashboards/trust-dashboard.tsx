@@ -1,4 +1,5 @@
 
+
 "use client"
 
 import { PageHeader } from "@/components/page-header";
@@ -26,7 +27,6 @@ import {
 import { students } from "@/lib/data";
 import { format } from "date-fns";
 import { PieChart, Pie, Cell, Legend } from 'recharts';
-import { Fragment } from "react";
 
 type CourseData = {
     name: string;
@@ -110,7 +110,6 @@ export function TrustDashboard() {
                             <TableHead>Student Name</TableHead>
                             <TableHead>Course</TableHead>
                             <TableHead>Session</TableHead>
-                            <TableHead>Transaction Date</TableHead>
                             <TableHead className="text-right">Course Fee</TableHead>
                             <TableHead className="text-right">Submitted</TableHead>
                             <TableHead className="text-right">Due</TableHead>
@@ -118,51 +117,23 @@ export function TrustDashboard() {
                     </TableHeader>
                     <TableBody>
                         {students.map((student) => {
-                            let due = student.courseFee;
-                            const hasHistory = student.feeHistory.length > 0;
-
+                            const totalPaid = student.feeHistory.reduce((acc, curr) => acc + curr.amount, 0);
+                            const due = student.courseFee - totalPaid;
                             return (
-                                <Fragment key={student.id}>
-                                    {!hasHistory ? (
-                                        <TableRow>
-                                            <TableCell className="font-medium">{student.studentName}</TableCell>
-                                            <TableCell>{student.course}</TableCell>
-                                            <TableCell>{student.session}</TableCell>
-                                            <TableCell>N/A</TableCell>
-                                            <TableCell className="text-right">{formatCurrency(student.courseFee)}</TableCell>
-                                            <TableCell className="text-right">{formatCurrency(0)}</TableCell>
-                                            <TableCell className="text-right">{formatCurrency(due)}</TableCell>
-                                        </TableRow>
-                                    ) : (
-                                        student.feeHistory.map((payment, index) => {
-                                            due -= payment.amount;
-                                            return (
-                                                <TableRow key={`${student.id}-${index}`}>
-                                                    {index === 0 && <TableCell rowSpan={student.feeHistory.length} className="font-medium align-top">{student.studentName}</TableCell>}
-                                                    {index === 0 && <TableCell rowSpan={student.feeHistory.length} className="align-top">{student.course}</TableCell>}
-                                                    {index === 0 && <TableCell rowSpan={student.feeHistory.length} className="align-top">{student.session}</TableCell>}
-                                                    
-                                                    <TableCell>{format(payment.date, "PPP")}</TableCell>
-                                                    {index === 0 && <TableCell rowSpan={student.feeHistory.length} className="text-right align-top">{formatCurrency(student.courseFee)}</TableCell>}
-                                                    <TableCell className="text-right">{formatCurrency(payment.amount)}</TableCell>
-                                                    <TableCell className="text-right">{formatCurrency(due)}</TableCell>
-                                                </TableRow>
-                                            );
-                                        })
-                                    )}
-                                    <TableRow className="bg-muted/20">
-                                      <TableCell colSpan={4} className="text-right font-semibold">Total for {student.studentName}:</TableCell>
-                                      <TableCell className="text-right font-semibold">{formatCurrency(student.courseFee)}</TableCell>
-                                      <TableCell className="text-right font-semibold">{formatCurrency(student.feeHistory.reduce((acc, p) => acc + p.amount, 0))}</TableCell>
-                                      <TableCell className="text-right font-semibold">{formatCurrency(due)}</TableCell>
-                                    </TableRow>
-                                </Fragment>
+                                <TableRow key={student.id}>
+                                    <TableCell className="font-medium">{student.studentName}</TableCell>
+                                    <TableCell>{student.course}</TableCell>
+                                    <TableCell>{student.session}</TableCell>
+                                    <TableCell className="text-right">{formatCurrency(student.courseFee)}</TableCell>
+                                    <TableCell className="text-right">{formatCurrency(totalPaid)}</TableCell>
+                                    <TableCell className="text-right">{formatCurrency(due)}</TableCell>
+                                </TableRow>
                             );
                         })}
                     </TableBody>
                     <TableFooter>
                         <TableRow>
-                            <TableCell colSpan={4} className="font-bold">Grand Total</TableCell>
+                            <TableCell colSpan={3} className="font-bold">Grand Total</TableCell>
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalCourseFee)}</TableCell>
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalSubmittedFee)}</TableCell>
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalDue)}</TableCell>
