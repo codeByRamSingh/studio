@@ -45,6 +45,14 @@ export function TrustDashboard() {
   const grandTotalSubmittedFee = students.reduce((acc, student) => acc + student.feeHistory.reduce((feeAcc, fee) => feeAcc + fee.amount, 0), 0);
   const grandTotalDue = grandTotalCourseFee - grandTotalSubmittedFee;
 
+  const currentYear = new Date().getFullYear();
+  const totalFeeCollectedCurrentYear = students.reduce((acc, student) => {
+    const currentYearFees = student.feeHistory
+      .filter(fee => fee.date.getFullYear() === currentYear)
+      .reduce((feeAcc, fee) => feeAcc + fee.amount, 0);
+    return acc + currentYearFees;
+  }, 0);
+
   const courseCounts = students.reduce((acc, student) => {
     if(student.course) {
         acc[student.course] = (acc[student.course] || 0) + 1;
@@ -74,6 +82,16 @@ export function TrustDashboard() {
         description="High-level reports and analytics for the governing trust."
       />
        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+
+        <Card className="lg:col-span-5">
+            <CardHeader>
+                <CardTitle>Total Fee Collected ({currentYear})</CardTitle>
+                <CardDescription>The total amount of fees collected in the current year.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="text-4xl font-bold tracking-tight">{formatCurrency(totalFeeCollectedCurrentYear)}</div>
+            </CardContent>
+        </Card>
         
         <Card className="lg:col-span-5">
             <CardHeader>
