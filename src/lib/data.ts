@@ -1,4 +1,5 @@
 
+
 export const users = [
   {
     id: 1,
@@ -10,6 +11,12 @@ export const users = [
     id: 2,
     username: "STU1",
     password: "rama123",
+    role: "Student",
+  },
+   {
+    id: 3,
+    username: "STU2",
+    password: "seeta123",
     role: "Student",
   }
 ];
@@ -30,8 +37,56 @@ export const students = [
         gender: 'Male',
         course: 'Electrician',
         fee: 50000,
+    },
+    {
+        id: 2,
+        studentId: "STU2",
+        studentName: "Seeta",
+        fatherName: "Janaka",
+        motherName: "Sunayana",
+        address: "Mithila",
+        email: "seeta@example.com",
+        phone: "0987654321",
+        caste: "General",
+        religion: "Hindu",
+        dob: "2006-02-15",
+        gender: "Female",
+        course: "Fitter",
+        fee: 45000
     }
 ];
+
+export const courses = [
+  {
+    id: 1,
+    courseCode: "ELEC-101",
+    courseName: "Electrician",
+    subjects: ["Basic Electrical Engineering", "Wiring Practices", "Electrical Machines"],
+    numberOfSessions: 60,
+  },
+  {
+    id: 2,
+    courseCode: "FIT-101",
+    courseName: "Fitter",
+    subjects: ["Mechanical Drawing", "Workshop Calculations", "Fitting Theory"],
+    numberOfSessions: 75,
+  },
+  {
+    id: 3,
+    courseCode: "WELD-101",
+    courseName: "Welder",
+    subjects: ["Welding Techniques", "Material Science", "Safety Procedures"],
+    numberOfSessions: 50,
+  },
+  {
+    id: 4,
+    courseCode: "MECH-101",
+    courseName: "Mechanic (Motor Vehicle)",
+    subjects: ["Engine Systems", "Automotive Electricals", "Chassis and Body"],
+    numberOfSessions: 90,
+  },
+];
+
 
 export const events = [
   {

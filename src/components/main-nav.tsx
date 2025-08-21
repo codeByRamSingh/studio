@@ -44,12 +44,6 @@ const baseLinks = [
     icon: FileText,
     roles: ["Student", "Staff", "Admin", "Trust"],
   },
-  {
-    href: "/courses",
-    label: "Courses",
-    icon: BookOpen,
-    roles: ["Student", "Staff", "Admin", "Trust"],
-  },
 ];
 
 const adminLinks = [
@@ -58,10 +52,25 @@ const adminLinks = [
         label: "Users",
         icon: UserPlus,
         roles: ["Admin"]
-    }
+    },
+    {
+      href: "/dashboard/courses",
+      label: "Courses",
+      icon: BookOpen,
+      roles: ["Admin"],
+    },
 ]
 
-const allLinks = [...baseLinks, ...adminLinks];
+const nonAdminLinks = [
+  {
+    href: "/courses",
+    label: "Courses",
+    icon: BookOpen,
+    roles: ["Student", "Staff", "Trust"],
+  },
+]
+
+const allLinks = [...baseLinks, ...adminLinks, ...nonAdminLinks];
 
 const NavLink = ({ href, icon: Icon, label, pathname }: { href: string, icon: React.ElementType, label: string, pathname: string }) => (
     <Link href={href} className={cn(
