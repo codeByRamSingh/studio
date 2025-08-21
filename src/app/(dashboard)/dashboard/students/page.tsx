@@ -129,6 +129,9 @@ export default function StudentManagementPage() {
                           <DropdownMenuItem asChild>
                             <Link href={`#`}>Edit Student</Link>
                           </DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Link href={`#`}>Submit Fee</Link>
+                          </DropdownMenuItem>
                           <DropdownMenuSeparator />
                            <AlertDialogTrigger asChild>
                                 <DropdownMenuItem className="text-destructive">
