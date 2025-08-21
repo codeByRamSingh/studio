@@ -55,6 +55,7 @@ export default function StudentManagementPage() {
               <TableRow>
                 <TableHead>Student ID</TableHead>
                 <TableHead>Student Name</TableHead>
+                <TableHead>Course</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -65,6 +66,7 @@ export default function StudentManagementPage() {
                     {student.studentId}
                   </TableCell>
                   <TableCell>{student.studentName}</TableCell>
+                  <TableCell>{student.course}</TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
