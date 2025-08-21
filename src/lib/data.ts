@@ -63,6 +63,7 @@ export let courses = [
     courseName: "Electrician",
     subjects: ["Basic Electrical Engineering", "Wiring Practices", "Electrical Machines"],
     numberOfSessions: 60,
+    sessions: [],
   },
   {
     id: 2,
@@ -70,6 +71,7 @@ export let courses = [
     courseName: "Fitter",
     subjects: ["Mechanical Drawing", "Workshop Calculations", "Fitting Theory"],
     numberOfSessions: 75,
+    sessions: [],
   },
   {
     id: 3,
@@ -77,6 +79,7 @@ export let courses = [
     courseName: "Welder",
     subjects: ["Welding Techniques", "Material Science", "Safety Procedures"],
     numberOfSessions: 50,
+    sessions: [],
   },
   {
     id: 4,
@@ -84,6 +87,7 @@ export let courses = [
     courseName: "Mechanic (Motor Vehicle)",
     subjects: ["Engine Systems", "Automotive Electricals", "Chassis and Body"],
     numberOfSessions: 90,
+    sessions: [],
   },
 ];
 
