@@ -16,6 +16,7 @@ export type Student = {
     course: string;
     session: string;
     courseFee: number;
+    feeHistory: { amount: number; date: Date }[];
 };
 
 export const users = [
@@ -56,6 +57,9 @@ export let students: Student[] = [
         course: 'ITI Electrician',
         session: 'Fall Semester 2024',
         courseFee: 15000,
+        feeHistory: [
+            { amount: 10000, date: new Date('2024-08-15') }
+        ]
     },
     {
         id: 2,
@@ -73,6 +77,7 @@ export let students: Student[] = [
         course: "ITI Fitter",
         session: "Batch A 2024",
         courseFee: 12000,
+        feeHistory: []
     }
 ];
 

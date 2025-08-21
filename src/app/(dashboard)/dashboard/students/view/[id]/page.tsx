@@ -15,6 +15,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { students, users } from "@/lib/data";
 import type { Student } from "@/lib/data";
 import { Separator } from "@/components/ui/separator";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 
 function DetailItem({ label, value }: { label: string; value: string | undefined | null }) {
   return (
@@ -73,6 +76,9 @@ export default function ViewStudentPage() {
     return <div>Student not found.</div>;
   }
 
+  const totalPaid = student.feeHistory.reduce((acc, curr) => acc + curr.amount, 0);
+  const remainingDue = student.courseFee - totalPaid;
+
   return (
     <div className="space-y-8">
       <PageHeader title="Student Details" description={`Viewing profile for ${student.studentName}`} />
@@ -120,6 +126,40 @@ export default function ViewStudentPage() {
                     <DetailItem label="Session" value={student.session} />
                     <DetailItem label="Course Fee" value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(student.courseFee)} />
                 </div>
+            </div>
+            <Separator />
+            <div>
+                <h3 className="text-lg font-semibold mb-4 text-primary">Fee Ledger</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <DetailItem label="Total Course Fee" value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(student.courseFee)} />
+                    <DetailItem label="Total Submitted" value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalPaid)} />
+                    <div>
+                        <span className="text-sm font-medium text-muted-foreground">Remaining Due</span>
+                        <Badge variant={remainingDue > 0 ? 'destructive' : 'default'} className="text-base font-semibold ml-2">
+                           {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(remainingDue)}
+                        </Badge>
+                    </div>
+                </div>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Date</TableHead>
+                            <TableHead className="text-right">Amount Submitted</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {student.feeHistory.length > 0 ? student.feeHistory.map((payment, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{format(payment.date, "PPP")}</TableCell>
+                                <TableCell className="text-right">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(payment.amount)}</TableCell>
+                            </TableRow>
+                        )) : (
+                            <TableRow>
+                                <TableCell colSpan={2} className="text-center">No payments made yet.</TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
             </div>
         </CardContent>
       </Card>

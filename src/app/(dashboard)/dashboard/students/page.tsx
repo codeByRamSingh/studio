@@ -130,7 +130,7 @@ export default function StudentManagementPage() {
                             <Link href={`/dashboard/students/edit/${student.id}`}>Edit Student</Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
-                            <Link href={`#`}>Submit Fee</Link>
+                            <Link href={`/dashboard/students/submit-fee/${student.id}`}>Submit Fee</Link>
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                            <AlertDialogTrigger asChild>
