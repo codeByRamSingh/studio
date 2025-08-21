@@ -64,7 +64,7 @@ export default function AddNoticePage() {
       description: `The notice "${title}" has been published.`,
     });
 
-    router.push("/dashboard/notices");
+    router.push("/notices");
   };
 
   return (
