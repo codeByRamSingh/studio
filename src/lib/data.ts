@@ -82,6 +82,46 @@ export let courses: {
                 endDate: new Date("2025-05-25"),
             }
         ]
+    },
+    {
+        id: 2,
+        courseCode: "ELEC-02",
+        courseName: "ITI Electrical",
+        subjects: ["Advanced Circuit Theory", "Power Systems", "Industrial Automation"],
+        sessions: [
+            {
+                id: 1,
+                name: "2024 Full Year",
+                startDate: new Date("2024-07-01"),
+                endDate: new Date("2025-06-30"),
+            },
+            {
+                id: 2,
+                name: "2025 Full Year",
+                startDate: new Date("2025-07-01"),
+                endDate: new Date("2026-06-30"),
+            }
+        ]
+    },
+    {
+        id: 3,
+        courseCode: "FIT-01",
+        courseName: "ITI Fitter",
+        subjects: ["Workshop Calculations", "Engineering Drawing", "Lathe Operations"],
+        sessions: [
+            {
+                id: 1,
+                name: "Batch A 2024",
+                startDate: new Date("2024-09-01"),
+                endDate: new Date("2025-08-31"),
+            },
+            {
+                id: 2,
+                name: "Batch B 2024",
+                startDate: new Date("2024-09-01"),
+                endDate: new Date("2025-08-31"),
+            }
+        ]
     }
 ];
 
