@@ -18,6 +18,11 @@ import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
+import { useUser } from "@/hooks/use-user";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 function DetailItem({ label, value }: { label: string; value: string | undefined | null }) {
   return (
@@ -31,10 +36,16 @@ function DetailItem({ label, value }: { label: string; value: string | undefined
 export default function ViewStudentPage() {
   const params = useParams();
   const router = useRouter();
+  const { toast } = useToast();
+  const { user: loggedInUser } = useUser();
   const [student, setStudent] = useState<Student | undefined>(undefined);
   const [user, setUser] = useState<{username: string, password: string} | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
   
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const studentId = parseInt(params.id as string, 10);
 
   useEffect(() => {
@@ -50,6 +61,35 @@ export default function ViewStudentPage() {
     }
     setIsLoading(false);
   }, [studentId, router]);
+  
+  const handlePasswordChange = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (newPassword !== confirmPassword) {
+        toast({ variant: "destructive", title: "Passwords do not match." });
+        return;
+    }
+
+    const userIndex = users.findIndex(u => u.username === user?.username);
+    if (userIndex > -1) {
+        if (users[userIndex].password !== currentPassword) {
+            toast({ variant: "destructive", title: "Incorrect current password." });
+            return;
+        }
+        users[userIndex].password = newPassword;
+        toast({ title: "Password updated successfully!" });
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        // Refresh user details to show updated password (for demo)
+         const foundUser = users.find(u => u.username === student?.studentId);
+         if(foundUser) {
+           setUser({username: foundUser.username, password: foundUser.password});
+         }
+    } else {
+        toast({ variant: "destructive", title: "User not found." });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -78,6 +118,7 @@ export default function ViewStudentPage() {
 
   const totalPaid = student.feeHistory.reduce((acc, curr) => acc + curr.amount, 0);
   const remainingDue = student.courseFee - totalPaid;
+  const isViewingOwnProfile = loggedInUser?.role === 'Student' && loggedInUser.username === student.studentId;
 
   return (
     <div className="space-y-8">
@@ -161,6 +202,30 @@ export default function ViewStudentPage() {
                     </TableBody>
                 </Table>
             </div>
+
+            {isViewingOwnProfile && (
+              <>
+                <Separator />
+                <div>
+                    <h3 className="text-lg font-semibold mb-4 text-primary">Change Password</h3>
+                    <form onSubmit={handlePasswordChange} className="space-y-4 max-w-sm">
+                        <div className="grid gap-2">
+                            <Label htmlFor="currentPassword">Current Password</Label>
+                            <Input id="currentPassword" type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} required />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="newPassword">New Password</Label>
+                            <Input id="newPassword" type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} required />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                            <Input id="confirmPassword" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+                        </div>
+                        <Button type="submit">Update Password</Button>
+                    </form>
+                </div>
+              </>
+            )}
         </CardContent>
       </Card>
     </div>
