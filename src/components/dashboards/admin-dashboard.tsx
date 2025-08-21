@@ -85,7 +85,7 @@ export function AdminDashboard() {
         title="Admin Dashboard"
         description="System overview and management tools."
       />
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-3">
         {adminActions.map((action) => (
             <Card key={action.title} className="flex flex-col justify-between text-sm">
                 <CardHeader className="p-4">
