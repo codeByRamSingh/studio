@@ -67,7 +67,7 @@ export default function NoticesPage() {
         />
         {user?.role === "Admin" && (
           <Button asChild>
-            <Link href="/dashboard/notices/add">
+            <Link href="/notices/add">
               <PlusCircle className="mr-2 size-4" />
               Create Notice
             </Link>
