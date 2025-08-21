@@ -25,7 +25,7 @@ import {
   } from "@/components/ui/chart"
 import { students } from "@/lib/data";
 import { format } from "date-fns";
-import { PieChart, Pie, Cell, Legend } from 'recharts';
+import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 
 type CourseData = {
     name: string;
