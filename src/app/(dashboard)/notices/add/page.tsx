@@ -19,7 +19,7 @@ import { notices } from "@/lib/data";
 import { PageHeader } from "@/components/page-header";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const audienceOptions = ["Student", "Staff", "Trust", "Admin"];
+const audienceOptions = ["Student", "Staff"];
 
 export default function AddNoticePage() {
   const router = useRouter();
