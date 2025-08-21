@@ -25,7 +25,7 @@ import {
   } from "@/components/ui/chart"
 import { students } from "@/lib/data";
 import { format } from "date-fns";
-import { PieChart, Pie, Cell, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { PieChart, Pie, Cell, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
 type CourseData = {
     name: string;
@@ -141,7 +141,7 @@ export function TrustDashboard() {
             <CardContent>
                 <ChartContainer config={{}} className="min-h-[250px] w-full">
                     <PieChart>
-                        <Tooltip
+                        <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent hideLabel />}
                         />
@@ -202,7 +202,7 @@ export function TrustDashboard() {
                         <CartesianGrid vertical={false} />
                         <XAxis dataKey="year" tickLine={false} tickMargin={10} axisLine={false} />
                         <YAxis tickFormatter={(value) => formatCurrency(value as number)} />
-                        <Tooltip
+                        <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent formatter={(value) => formatCurrency(value as number)} hideLabel />}
                         />
