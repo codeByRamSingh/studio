@@ -17,6 +17,7 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
   import { useUser } from "@/hooks/use-user"
+  import { students } from "@/lib/data"
   import Link from "next/link"
   
   export function UserNav() {
@@ -25,6 +26,8 @@ import {
     if (!user) {
       return null;
     }
+
+    const student = user.role === 'Student' ? students.find(s => s.studentId === user.username) : null;
 
     return (
       <DropdownMenu>
@@ -47,12 +50,11 @@ import {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-              Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              Settings
-            </DropdownMenuItem>
+            {student && (
+                <DropdownMenuItem asChild>
+                    <Link href={`/dashboard/students/view/${student.id}`}>Profile</Link>
+                </DropdownMenuItem>
+            )}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
