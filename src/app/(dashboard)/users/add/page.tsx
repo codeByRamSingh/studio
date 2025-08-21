@@ -25,6 +25,7 @@ import { users, students } from "@/lib/data";
 import { PageHeader } from "@/components/page-header";
 import { Textarea } from "@/components/ui/textarea";
 import type { Student } from "@/lib/data";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function AddUserPage() {
   const router = useRouter();
@@ -45,9 +46,9 @@ export default function AddUserPage() {
   const [phone, setPhone] = useState("");
   const [caste, setCaste] = useState("");
   const [religion, setReligion] = useState("");
-  const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
-  const [fee, setFee] = useState("");
+  const [physicallyDisabled, setPhysicallyDisabled] = useState("No");
+
 
   useEffect(() => {
     const roleFromQuery = searchParams.get('role');
@@ -60,7 +61,7 @@ export default function AddUserPage() {
     e.preventDefault();
     
     if (role === 'Student') {
-        if (!studentName || !fatherName || !motherName || !address || !email || !phone || !caste || !religion || !dob || !gender || !fee) {
+        if (!studentName || !fatherName || !motherName || !address || !email || !phone || !caste || !religion || !gender || !physicallyDisabled) {
             toast({
                 variant: "destructive",
                 title: "Failed to Add Student",
@@ -84,10 +85,9 @@ export default function AddUserPage() {
             phone,
             caste,
             religion,
-            dob,
             gender,
+            physicallyDisabled: physicallyDisabled === "Yes",
             course: '', // Course will be assigned in the next step
-            fee: parseFloat(fee),
         };
         students.push(newStudent);
 
@@ -136,22 +136,7 @@ export default function AddUserPage() {
                 <Input id="motherName" value={motherName} onChange={(e) => setMotherName(e.target.value)} required />
             </div>
              <div className="grid gap-2">
-                <Label htmlFor="dob">Date of Birth</Label>
-                <Input id="dob" type="date" value={dob} onChange={(e) => setDob(e.target.value)} required />
-            </div>
-             <div className="grid gap-2">
-                <Label htmlFor="gender">Gender</Label>
-                <Select value={gender} onValueChange={setGender} required>
-                    <SelectTrigger><SelectValue placeholder="Select Gender" /></SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="Male">Male</SelectItem>
-                        <SelectItem value="Female">Female</SelectItem>
-                        <SelectItem value="Other">Other</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-             <div className="grid gap-2">
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="phone">Mobile Number</Label>
                 <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
             </div>
             <div className="grid gap-2">
@@ -163,12 +148,49 @@ export default function AddUserPage() {
                 <Input id="caste" value={caste} onChange={(e) => setCaste(e.target.value)} required />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="religion">Religion</Label>
-                <Input id="religion" value={religion} onChange={(e) => setReligion(e.target.value)} required />
+                <Label>Gender</Label>
+                <RadioGroup defaultValue={gender} onValueChange={setGender} className="flex gap-4">
+                    <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="Male" id="male" />
+                        <Label htmlFor="male">Male</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="Female" id="female" />
+                        <Label htmlFor="female">Female</Label>
+                    </div>
+                     <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="Other" id="other" />
+                        <Label htmlFor="other">Other</Label>
+                    </div>
+                </RadioGroup>
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="fee">Fee</Label>
-                <Input id="fee" type="number" value={fee} onChange={(e) => setFee(e.target.value)} required />
+                <Label>Physically Disabled</Label>
+                <RadioGroup defaultValue={physicallyDisabled} onValueChange={setPhysicallyDisabled} className="flex gap-4">
+                    <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="Yes" id="pd-yes" />
+                        <Label htmlFor="pd-yes">Yes</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="No" id="pd-no" />
+                        <Label htmlFor="pd-no">No</Label>
+                    </div>
+                </RadioGroup>
+            </div>
+            <div className="grid gap-2">
+                 <Label htmlFor="religion">Religion</Label>
+                <Select value={religion} onValueChange={setReligion} required>
+                    <SelectTrigger><SelectValue placeholder="Select Religion" /></SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="Hindu">Hindu</SelectItem>
+                        <SelectItem value="Muslim">Muslim</SelectItem>
+                        <SelectItem value="Christian">Christian</SelectItem>
+                        <SelectItem value="Sikh">Sikh</SelectItem>
+                        <SelectItem value="Buddhist">Buddhist</SelectItem>
+                        <SelectItem value="Jain">Jain</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
         </div>
         <div className="grid gap-2 md:col-span-2">
@@ -177,7 +199,7 @@ export default function AddUserPage() {
         </div>
 
         <div className="mt-4 text-sm text-muted-foreground">
-            A unique Student ID and password will be automatically generated.
+            A unique Student ID and password will be automatically generated. Course selection is the next step.
         </div>
     </>
   );
@@ -197,31 +219,18 @@ export default function AddUserPage() {
 
   return (
     <div className="space-y-8">
-        <PageHeader title="Add New User - Step 1: Bio" description="Create a new user account and assign a role." />
+        <PageHeader title="Student Registration" description="Enter the student's personal details to begin enrollment." />
         <div className="flex justify-center">
             <Card className="w-full max-w-3xl">
                 <form onSubmit={handleAddUser}>
                     <CardHeader>
-                        <CardTitle className="text-2xl">Create an account for {role || '...'}</CardTitle>
+                        <CardTitle className="text-2xl">Create an account for a Student</CardTitle>
                         <CardDescription>
-                            Enter the details below to create a new user account. Course selection is the next step.
+                           Enter the details below. Course selection is the next step.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="role">Role</Label>
-                            <Select value={role} onValueChange={setRole} required disabled>
-                                <SelectTrigger id="role">
-                                    <SelectValue placeholder="Select a role" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Admin">Admin User</SelectItem>
-                                    <SelectItem value="Trust">Trust User</SelectItem>
-                                    <SelectItem value="Staff">Staff User</SelectItem>
-                                    <SelectItem value="Student">Student User</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
+                        <input type="hidden" name="role" value="Student" />
                         
                         {role === 'Student' ? renderStudentForm() : renderGenericUserForm()}
 

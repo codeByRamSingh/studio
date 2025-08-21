@@ -11,10 +11,9 @@ export type Student = {
     phone: string;
     caste: string;
     religion: string;
-    dob: string;
     gender: string;
+    physicallyDisabled: boolean;
     course: string;
-    fee: number;
 };
 
 export const users = [
@@ -50,10 +49,9 @@ export let students: Student[] = [
         phone: '1234567890',
         caste: 'General',
         religion: 'Hindu',
-        dob: '2005-01-01',
         gender: 'Male',
+        physicallyDisabled: false,
         course: 'ITI Electrician',
-        fee: 50000,
     },
     {
         id: 2,
@@ -66,10 +64,9 @@ export let students: Student[] = [
         phone: "0987654321",
         caste: "General",
         religion: "Hindu",
-        dob: "2006-02-15",
         gender: "Female",
+        physicallyDisabled: false,
         course: "ITI Fitter",
-        fee: 45000
     }
 ];
 
