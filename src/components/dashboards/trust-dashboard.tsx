@@ -16,6 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableFooter,
 } from "@/components/ui/table";
 import {
     ChartContainer,
@@ -32,11 +33,6 @@ type CourseData = {
     fill: string;
 };
 
-const FEE_COLORS = {
-    'Submitted Fee': '#00C49F',
-    'Due Fee': '#FF8042',
-}
-
 const COURSE_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF195E'];
 
 function formatCurrency(amount: number) {
@@ -45,14 +41,9 @@ function formatCurrency(amount: number) {
 
 export function TrustDashboard() {
 
-  const totalCourseFee = students.reduce((acc, student) => acc + student.courseFee, 0);
-  const totalSubmittedFee = students.reduce((acc, student) => acc + student.feeHistory.reduce((feeAcc, fee) => feeAcc + fee.amount, 0), 0);
-  const totalDue = totalCourseFee - totalSubmittedFee;
-
-  const feeChartData: CourseData[] = [
-      { name: 'Submitted Fee', value: totalSubmittedFee, fill: FEE_COLORS['Submitted Fee'] },
-      { name: 'Due Fee', value: totalDue, fill: FEE_COLORS['Due Fee'] },
-  ]
+  const grandTotalCourseFee = students.reduce((acc, student) => acc + (student.courseFee || 0), 0);
+  const grandTotalSubmittedFee = students.reduce((acc, student) => acc + student.feeHistory.reduce((feeAcc, fee) => feeAcc + fee.amount, 0), 0);
+  const grandTotalDue = grandTotalCourseFee - grandTotalSubmittedFee;
 
   const courseCounts = students.reduce((acc, student) => {
     if(student.course) {
@@ -83,41 +74,51 @@ export function TrustDashboard() {
         description="High-level reports and analytics for the governing trust."
       />
        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
-        <Card className="lg:col-span-2">
+        
+        <Card className="lg:col-span-5">
             <CardHeader>
                 <CardTitle>Financial Overview</CardTitle>
-                <CardDescription>Total fee breakdown: {formatCurrency(totalCourseFee)}</CardDescription>
+                <CardDescription>A detailed fee ledger for all students.</CardDescription>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={{}} className="min-h-[250px] w-full">
-                    <PieChart>
-                        <Tooltip
-                            cursor={false}
-                            content={<ChartTooltipContent 
-                                hideLabel
-                                formatter={(value, name) => [formatCurrency(value as number), name]}
-                            />}
-                        />
-                         <Legend />
-                        <Pie
-                            data={feeChartData}
-                            dataKey="value"
-                            nameKey="name"
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={80}
-                            labelLine={false}
-                            label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
-                        >
-                            {feeChartData.map((entry) => (
-                                <Cell key={entry.name} fill={entry.fill} />
-                            ))}
-                        </Pie>
-                    </PieChart>
-                </ChartContainer>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Student Name</TableHead>
+                            <TableHead>Course</TableHead>
+                            <TableHead className="text-right">Total Course Fee</TableHead>
+                            <TableHead className="text-right">Total Submitted</TableHead>
+                            <TableHead className="text-right">Total Due</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {students.map((student) => {
+                            const totalPaid = student.feeHistory.reduce((acc, curr) => acc + curr.amount, 0);
+                            const remainingDue = student.courseFee - totalPaid;
+                            return (
+                                <TableRow key={student.id}>
+                                    <TableCell>{student.studentName}</TableCell>
+                                    <TableCell>{student.course}</TableCell>
+                                    <TableCell className="text-right">{formatCurrency(student.courseFee)}</TableCell>
+                                    <TableCell className="text-right">{formatCurrency(totalPaid)}</TableCell>
+                                    <TableCell className="text-right">{formatCurrency(remainingDue)}</TableCell>
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TableCell colSpan={2} className="font-bold">Grand Total</TableCell>
+                            <TableCell className="text-right font-bold">{formatCurrency(grandTotalCourseFee)}</TableCell>
+                            <TableCell className="text-right font-bold">{formatCurrency(grandTotalSubmittedFee)}</TableCell>
+                            <TableCell className="text-right font-bold">{formatCurrency(grandTotalDue)}</TableCell>
+                        </TableRow>
+                    </TableFooter>
+                </Table>
             </CardContent>
         </Card>
-        <Card className="lg:col-span-3">
+
+        <Card className="lg:col-span-2">
             <CardHeader>
                 <CardTitle>Course-wise Student Distribution</CardTitle>
                 <CardDescription>Number of students in each course.</CardDescription>
@@ -129,6 +130,7 @@ export function TrustDashboard() {
                             cursor={false}
                             content={<ChartTooltipContent hideLabel />}
                         />
+                         <Legend />
                         <Pie
                             data={courseChartData}
                             dataKey="value"
@@ -136,7 +138,7 @@ export function TrustDashboard() {
                             cx="50%"
                             cy="50%"
                             outerRadius={80}
-                            label={(entry) => `${entry.name} (${entry.value})`}
+                            label={(entry) => `${entry.value}`}
                         >
                             {courseChartData.map((entry) => (
                                 <Cell key={entry.name} fill={entry.fill} />
@@ -146,7 +148,8 @@ export function TrustDashboard() {
                 </ChartContainer>
             </CardContent>
         </Card>
-        <Card className="lg:col-span-5">
+        
+        <Card className="lg:col-span-3">
             <CardHeader>
                 <CardTitle>Recent Transactions</CardTitle>
                 <CardDescription>The last 5 fee payments received.</CardDescription>
