@@ -82,21 +82,21 @@ export function AdminDashboard() {
         title="Admin Dashboard"
         description="System overview and management tools."
       />
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
         {adminActions.map((action) => (
-            <Card key={action.title} className="flex flex-col aspect-square justify-between">
-                <CardHeader>
+            <Card key={action.title} className="flex flex-col justify-between text-sm">
+                <CardHeader className="p-4">
                     <div className="flex items-start justify-between">
-                        <CardTitle className="text-base font-medium">
+                        <CardTitle className="text-sm font-medium">
                             {action.title}
                         </CardTitle>
-                        <action.icon className="h-5 w-5 text-muted-foreground" />
+                        <action.icon className="h-4 w-4 text-muted-foreground" />
                     </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-4 pt-0">
                     <CardDescription className="text-xs">{action.description}</CardDescription>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="p-4 pt-0">
                     <Button asChild className="w-full" size="sm">
                     <Link href={action.href}>
                         {action.title} <ArrowRight className="ml-2 size-4" />
