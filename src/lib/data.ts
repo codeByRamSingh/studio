@@ -15,6 +15,7 @@ export type Student = {
     physicallyDisabled: boolean;
     course: string;
     session: string;
+    courseFee: number;
 };
 
 export const users = [
@@ -54,6 +55,7 @@ export let students: Student[] = [
         physicallyDisabled: false,
         course: 'ITI Electrician',
         session: 'Fall Semester 2024',
+        courseFee: 15000,
     },
     {
         id: 2,
@@ -70,6 +72,7 @@ export let students: Student[] = [
         physicallyDisabled: false,
         course: "ITI Fitter",
         session: "Batch A 2024",
+        courseFee: 12000,
     }
 ];
 

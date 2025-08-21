@@ -95,6 +95,7 @@ export default function StudentManagementPage() {
                 <TableHead>Student Name</TableHead>
                 <TableHead>Course</TableHead>
                 <TableHead>Session</TableHead>
+                <TableHead>Course Fee</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -108,6 +109,9 @@ export default function StudentManagementPage() {
                   <TableCell>{student.course}</TableCell>
                   <TableCell>
                     <Badge variant="outline">{student.session}</Badge>
+                  </TableCell>
+                  <TableCell>
+                    {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(student.courseFee)}
                   </TableCell>
                   <TableCell className="text-right">
                     <AlertDialog>

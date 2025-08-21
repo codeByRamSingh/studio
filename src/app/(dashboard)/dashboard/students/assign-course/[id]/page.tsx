@@ -23,6 +23,7 @@ import { useToast } from "@/hooks/use-toast";
 import { students, courses } from "@/lib/data";
 import { PageHeader } from "@/components/page-header";
 import type { Student } from "@/lib/data";
+import { Input } from "@/components/ui/input";
 
 export default function AssignCoursePage() {
   const router = useRouter();
@@ -33,6 +34,7 @@ export default function AssignCoursePage() {
   const [student, setStudent] = useState<Student | undefined>(undefined);
   const [selectedCourse, setSelectedCourse] = useState("");
   const [selectedSession, setSelectedSession] = useState("");
+  const [courseFee, setCourseFee] = useState<number | string>("");
   const [availableSessions, setAvailableSessions] = useState<{ id: number; name: string; }[]>([]);
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export default function AssignCoursePage() {
         setStudent(foundStudent);
         setSelectedCourse(foundStudent.course || "");
         setSelectedSession(foundStudent.session || "");
+        setCourseFee(foundStudent.courseFee || "");
     } else {
         toast({ variant: "destructive", title: "Student not found" });
         router.push('/dashboard/students');
@@ -64,8 +67,8 @@ export default function AssignCoursePage() {
 
   const handleAssignCourse = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedCourse || !selectedSession) {
-        toast({ variant: "destructive", title: "Please select a course and session." });
+    if (!selectedCourse || !selectedSession || !courseFee) {
+        toast({ variant: "destructive", title: "Please fill all fields." });
         return;
     }
     
@@ -73,6 +76,7 @@ export default function AssignCoursePage() {
     if (studentIndex > -1) {
         students[studentIndex].course = selectedCourse;
         students[studentIndex].session = selectedSession;
+        students[studentIndex].courseFee = typeof courseFee === 'string' ? parseFloat(courseFee) : courseFee;
         toast({
             title: "Course Assigned!",
             description: `${student?.studentName} has been enrolled in ${selectedCourse} (${selectedSession}).`,
@@ -119,6 +123,10 @@ export default function AssignCoursePage() {
                                     </SelectContent>
                                 </Select>
                             </div>
+                        </div>
+                         <div className="grid gap-2">
+                            <Label htmlFor="courseFee">Course Fee (in Rupees)</Label>
+                            <Input id="courseFee" type="number" value={courseFee} onChange={(e) => setCourseFee(e.target.value)} required placeholder="e.g. 15000" />
                         </div>
                         <Button className="w-full mt-4" type="submit">
                            Finish Admission
