@@ -73,6 +73,8 @@ export default function AddSessionPage() {
     router.push(`/dashboard/courses/sessions/${courseId}`);
   };
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <div className="space-y-8">
         <PageHeader title={`Add New Session for ${course?.courseName}`} description="Create a new session with its details." />
@@ -112,6 +114,9 @@ export default function AddSessionPage() {
                                             mode="single"
                                             selected={startDate}
                                             onSelect={setStartDate}
+                                            captionLayout="dropdown-buttons"
+                                            fromYear={currentYear - 5}
+                                            toYear={currentYear + 5}
                                             initialFocus
                                         />
                                     </PopoverContent>
@@ -137,6 +142,9 @@ export default function AddSessionPage() {
                                             mode="single"
                                             selected={endDate}
                                             onSelect={setEndDate}
+                                            captionLayout="dropdown-buttons"
+                                            fromYear={currentYear - 5}
+                                            toYear={currentYear + 5}
                                             initialFocus
                                         />
                                     </PopoverContent>
