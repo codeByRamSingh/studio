@@ -39,7 +39,7 @@ export default function CoursesPage() {
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Total Sessions: {course.numberOfSessions}
+                  Total Sessions: {course.sessions?.length || 0}
                 </p>
               </CardContent>
             </Card>

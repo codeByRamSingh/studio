@@ -119,7 +119,7 @@ export default function CoursesPage() {
                     </div>
                   </TableCell>
                   <TableCell className="text-center">
-                    {course.numberOfSessions}
+                    {course.sessions?.length || 0}
                   </TableCell>
                   <TableCell className="text-right">
                     <AlertDialog>

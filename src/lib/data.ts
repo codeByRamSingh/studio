@@ -56,13 +56,18 @@ export let students = [
     }
 ];
 
-export let courses = [
+export let courses: {
+    id: number;
+    courseCode: string;
+    courseName: string;
+    subjects: string[];
+    sessions: { id: number; name: string; startDate: Date; endDate: Date; }[];
+}[] = [
   {
     id: 1,
     courseCode: "ELEC-101",
     courseName: "Electrician",
     subjects: ["Basic Electrical Engineering", "Wiring Practices", "Electrical Machines"],
-    numberOfSessions: 60,
     sessions: [],
   },
   {
@@ -70,7 +75,6 @@ export let courses = [
     courseCode: "FIT-101",
     courseName: "Fitter",
     subjects: ["Mechanical Drawing", "Workshop Calculations", "Fitting Theory"],
-    numberOfSessions: 75,
     sessions: [],
   },
   {
@@ -78,7 +82,6 @@ export let courses = [
     courseCode: "WELD-101",
     courseName: "Welder",
     subjects: ["Welding Techniques", "Material Science", "Safety Procedures"],
-    numberOfSessions: 50,
     sessions: [],
   },
   {
@@ -86,7 +89,6 @@ export let courses = [
     courseCode: "MECH-101",
     courseName: "Mechanic (Motor Vehicle)",
     subjects: ["Engine Systems", "Automotive Electricals", "Chassis and Body"],
-    numberOfSessions: 90,
     sessions: [],
   },
 ];

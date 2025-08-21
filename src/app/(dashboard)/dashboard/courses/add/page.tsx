@@ -25,12 +25,11 @@ export default function AddCoursePage() {
   const [courseName, setCourseName] = useState("");
   const [courseCode, setCourseCode] = useState("");
   const [subjects, setSubjects] = useState("");
-  const [numberOfSessions, setNumberOfSessions] = useState("");
 
   const handleAddCourse = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!courseName || !courseCode || !subjects || !numberOfSessions) {
+    if (!courseName || !courseCode || !subjects) {
         toast({
             variant: "destructive",
             title: "Failed to Add Course",
@@ -44,7 +43,7 @@ export default function AddCoursePage() {
         courseName,
         courseCode,
         subjects: subjects.split(",").map(s => s.trim()),
-        numberOfSessions: parseInt(numberOfSessions),
+        sessions: [],
     };
 
     courses.push(newCourse);
@@ -84,11 +83,7 @@ export default function AddCoursePage() {
                             <Label htmlFor="subjects">Subjects (comma-separated)</Label>
                             <Textarea id="subjects" value={subjects} onChange={(e) => setSubjects(e.target.value)} required placeholder="e.g. Basic Electrical Engineering, Wiring Practices" />
                         </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="numberOfSessions">Number of Sessions</Label>
-                            <Input id="numberOfSessions" type="number" value={numberOfSessions} onChange={(e) => setNumberOfSessions(e.target.value)} required />
-                        </div>
-
+                        
                         <Button className="w-full mt-4" type="submit">
                             Create Course
                         </Button>

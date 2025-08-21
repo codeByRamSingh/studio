@@ -30,7 +30,6 @@ export default function EditCoursePage() {
   const [courseName, setCourseName] = useState("");
   const [courseCode, setCourseCode] = useState("");
   const [subjects, setSubjects] = useState("");
-  const [numberOfSessions, setNumberOfSessions] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
 
@@ -39,7 +38,6 @@ export default function EditCoursePage() {
         setCourseName(course.courseName);
         setCourseCode(course.courseCode);
         setSubjects(course.subjects.join(", "));
-        setNumberOfSessions(course.numberOfSessions.toString());
         setIsLoading(false);
     } else {
         toast({
@@ -54,7 +52,7 @@ export default function EditCoursePage() {
   const handleUpdateCourse = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!courseName || !courseCode || !subjects || !numberOfSessions) {
+    if (!courseName || !courseCode || !subjects) {
         toast({
             variant: "destructive",
             title: "Failed to Update Course",
@@ -70,7 +68,6 @@ export default function EditCoursePage() {
             courseName,
             courseCode,
             subjects: subjects.split(",").map(s => s.trim()),
-            numberOfSessions: parseInt(numberOfSessions),
         };
 
         toast({
@@ -130,10 +127,6 @@ export default function EditCoursePage() {
                         <div className="grid gap-2">
                             <Label htmlFor="subjects">Subjects (comma-separated)</Label>
                             <Textarea id="subjects" value={subjects} onChange={(e) => setSubjects(e.target.value)} required />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="numberOfSessions">Number of Sessions</Label>
-                            <Input id="numberOfSessions" type="number" value={numberOfSessions} onChange={(e) => setNumberOfSessions(e.target.value)} required />
                         </div>
 
                         <Button className="w-full mt-4" type="submit">
