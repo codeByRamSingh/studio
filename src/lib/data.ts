@@ -182,30 +182,40 @@ export const events = [
   },
 ];
 
-export const notices = [
+export const notices: {
+  id: number;
+  title: string;
+  date: Date;
+  content: string;
+  audience: string[];
+}[] = [
   {
     id: 1,
     title: "Library Books Due Date Extension",
     date: new Date("2024-08-28T10:00:00"),
     content: "The due date for all borrowed library books has been extended to September 30th, 2024. No late fees will be charged until this date.",
+    audience: ["Student", "Staff"],
   },
   {
     id: 2,
     title: "Holiday Announcement: Gandhi Jayanti",
     date: new Date("2024-08-27T15:30:00"),
     content: "The institute will remain closed on October 2nd, 2024, on account of Gandhi Jayanti. All classes and administrative activities will be suspended.",
+    audience: ["Student", "Staff", "Admin", "Trust"],
   },
   {
     id: 3,
     title: "Scholarship Application Deadline",
     date: new Date("2024-08-25T11:00:00"),
     content: "Students are reminded that the deadline to apply for the annual merit scholarship is September 10th, 2024. Please submit your applications to the administrative office.",
+    audience: ["Student"],
   },
   {
     id: 4,
     title: "Updated Canteen Menu",
     date: new Date("2024-08-22T09:00:00"),
     content: "The campus canteen has updated its menu starting from September 1st, 2024. A wider variety of healthy and delicious options are now available.",
+    audience: ["Student", "Staff"],
   },
 ];
 
