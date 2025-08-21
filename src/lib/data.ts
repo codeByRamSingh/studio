@@ -62,7 +62,28 @@ export let courses: {
     courseName: string;
     subjects: string[];
     sessions: { id: number; name: string; startDate: Date; endDate: Date; }[];
-}[] = [];
+}[] = [
+    {
+        id: 1,
+        courseCode: "ELEC-01",
+        courseName: "ITI Electrician",
+        subjects: ["Basic Electrical Engineering", "Wiring Practices", "Motor Controls"],
+        sessions: [
+            {
+                id: 1,
+                name: "Fall Semester 2024",
+                startDate: new Date("2024-08-15"),
+                endDate: new Date("2024-12-20"),
+            },
+            {
+                id: 2,
+                name: "Spring Semester 2025",
+                startDate: new Date("2025-01-10"),
+                endDate: new Date("2025-05-25"),
+            }
+        ]
+    }
+];
 
 
 export const events = [
