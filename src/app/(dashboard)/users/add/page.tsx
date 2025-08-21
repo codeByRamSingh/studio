@@ -24,6 +24,7 @@ import { useToast } from "@/hooks/use-toast";
 import { users, students } from "@/lib/data";
 import { PageHeader } from "@/components/page-header";
 import { Textarea } from "@/components/ui/textarea";
+import type { Student } from "@/lib/data";
 
 export default function AddUserPage() {
   const router = useRouter();
@@ -46,7 +47,6 @@ export default function AddUserPage() {
   const [religion, setReligion] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
-  const [course, setCourse] = useState("");
   const [fee, setFee] = useState("");
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function AddUserPage() {
     e.preventDefault();
     
     if (role === 'Student') {
-        if (!studentName || !fatherName || !motherName || !address || !email || !phone || !caste || !religion || !dob || !gender || !course || !fee) {
+        if (!studentName || !fatherName || !motherName || !address || !email || !phone || !caste || !religion || !dob || !gender || !fee) {
             toast({
                 variant: "destructive",
                 title: "Failed to Add Student",
@@ -73,7 +73,7 @@ export default function AddUserPage() {
         const studentId = `STU${students.length + 1}`;
         const generatedPassword = `${studentName.split(' ')[0].toLowerCase()}123`;
 
-        const newStudent = {
+        const newStudent: Student = {
             id: students.length + 1,
             studentId,
             studentName,
@@ -86,7 +86,7 @@ export default function AddUserPage() {
             religion,
             dob,
             gender,
-            course,
+            course: '', // Course will be assigned in the next step
             fee: parseFloat(fee),
         };
         students.push(newStudent);
@@ -95,9 +95,11 @@ export default function AddUserPage() {
         users.push(newUser);
 
         toast({
-            title: "Student Added Successfully",
-            description: `Student "${studentName}" has been created with ID ${studentId}.`,
+            title: "Student Details Saved",
+            description: `Proceed to assign a course to ${studentName}.`,
         });
+        
+        router.push(`/dashboard/students/assign-course/${newStudent.id}`);
 
     } else {
         if (!username || !password || !role) {
@@ -114,9 +116,8 @@ export default function AddUserPage() {
             title: "User Added Successfully",
             description: `User "${username}" has been created.`,
         });
+        router.push("/users");
     }
-
-    router.push("/users");
   };
 
   const renderStudentForm = () => (
@@ -166,18 +167,6 @@ export default function AddUserPage() {
                 <Input id="religion" value={religion} onChange={(e) => setReligion(e.target.value)} required />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="course">Course</Label>
-                <Select value={course} onValueChange={setCourse} required>
-                     <SelectTrigger><SelectValue placeholder="Select Course" /></SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="Electrician">Electrician</SelectItem>
-                        <SelectItem value="Fitter">Fitter</SelectItem>
-                        <SelectItem value="Welder">Welder</SelectItem>
-                        <SelectItem value="Mechanic">Mechanic</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-            <div className="grid gap-2">
                 <Label htmlFor="fee">Fee</Label>
                 <Input id="fee" type="number" value={fee} onChange={(e) => setFee(e.target.value)} required />
             </div>
@@ -208,14 +197,14 @@ export default function AddUserPage() {
 
   return (
     <div className="space-y-8">
-        <PageHeader title="Add New User" description="Create a new user account and assign a role." />
+        <PageHeader title="Add New User - Step 1: Bio" description="Create a new user account and assign a role." />
         <div className="flex justify-center">
             <Card className="w-full max-w-3xl">
                 <form onSubmit={handleAddUser}>
                     <CardHeader>
                         <CardTitle className="text-2xl">Create an account for {role || '...'}</CardTitle>
                         <CardDescription>
-                            Enter the details below to create a new user account.
+                            Enter the details below to create a new user account. Course selection is the next step.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-4">
@@ -237,7 +226,7 @@ export default function AddUserPage() {
                         {role === 'Student' ? renderStudentForm() : renderGenericUserForm()}
 
                         <Button className="w-full mt-4" type="submit">
-                            Create Account
+                            Save and Proceed to Course Selection
                         </Button>
                     </CardContent>
                 </form>
@@ -246,5 +235,3 @@ export default function AddUserPage() {
     </div>
   );
 }
-
-    

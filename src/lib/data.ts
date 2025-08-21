@@ -1,5 +1,22 @@
 
 
+export type Student = {
+    id: number;
+    studentId: string;
+    studentName: string;
+    fatherName: string;
+    motherName: string;
+    address: string;
+    email: string;
+    phone: string;
+    caste: string;
+    religion: string;
+    dob: string;
+    gender: string;
+    course: string;
+    fee: number;
+};
+
 export const users = [
   {
     id: 1,
@@ -21,7 +38,7 @@ export const users = [
   }
 ];
 
-export let students = [
+export let students: Student[] = [
     {
         id: 1,
         studentId: 'STU1',
@@ -35,7 +52,7 @@ export let students = [
         religion: 'Hindu',
         dob: '2005-01-01',
         gender: 'Male',
-        course: 'Electrician',
+        course: 'ITI Electrician',
         fee: 50000,
     },
     {
@@ -51,7 +68,7 @@ export let students = [
         religion: "Hindu",
         dob: "2006-02-15",
         gender: "Female",
-        course: "Fitter",
+        course: "ITI Fitter",
         fee: 45000
     }
 ];
