@@ -86,6 +86,7 @@ export function TrustDashboard() {
                         <TableRow>
                             <TableHead>Student Name</TableHead>
                             <TableHead>Course</TableHead>
+                            <TableHead>Session</TableHead>
                             <TableHead className="text-right">Total Course Fee</TableHead>
                             <TableHead className="text-right">Total Submitted</TableHead>
                             <TableHead className="text-right">Total Due</TableHead>
@@ -99,6 +100,7 @@ export function TrustDashboard() {
                                 <TableRow key={student.id}>
                                     <TableCell>{student.studentName}</TableCell>
                                     <TableCell>{student.course}</TableCell>
+                                    <TableCell>{student.session}</TableCell>
                                     <TableCell className="text-right">{formatCurrency(student.courseFee)}</TableCell>
                                     <TableCell className="text-right">{formatCurrency(totalPaid)}</TableCell>
                                     <TableCell className="text-right">{formatCurrency(remainingDue)}</TableCell>
@@ -108,7 +110,7 @@ export function TrustDashboard() {
                     </TableBody>
                     <TableFooter>
                         <TableRow>
-                            <TableCell colSpan={2} className="font-bold">Grand Total</TableCell>
+                            <TableCell colSpan={3} className="font-bold">Grand Total</TableCell>
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalCourseFee)}</TableCell>
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalSubmittedFee)}</TableCell>
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalDue)}</TableCell>
