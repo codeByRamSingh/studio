@@ -35,12 +35,8 @@ const adminActions = [
       icon: Users,
       href: "/users/select-role?role=Staff",
     },
-    {
-      title: "Submit Fee",
-      description: "Record and manage student fee payments.",
-      icon: Receipt,
-      href: "#",
-    },
+      
+  
     {
       title: "Issue Notice",
       description: "Create and publish announcements for all users.",
@@ -54,7 +50,7 @@ const adminActions = [
       href: "#",
     },
     {
-      title: "Add Expense",
+      title: "Manage Expense",
       description: "Track and manage institutional expenses.",
       icon: DollarSign,
       href: "#",
@@ -86,22 +82,22 @@ export function AdminDashboard() {
         title="Admin Dashboard"
         description="System overview and management tools."
       />
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {adminActions.map((action) => (
             <Card key={action.title} className="flex flex-col">
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                    <CardTitle className="text-lg font-medium">
-                        {action.title}
-                    </CardTitle>
-                    <action.icon className="h-6 w-6 text-muted-foreground" />
+                <CardHeader>
+                    <div className="flex items-center justify-between">
+                        <CardTitle className="text-base font-medium">
+                            {action.title}
+                        </CardTitle>
+                        <action.icon className="h-5 w-5 text-muted-foreground" />
+                    </div>
+                    <CardDescription className="text-xs">{action.description}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-sm text-muted-foreground">{action.description}</p>
-                </CardContent>
-                <CardFooter>
-                    <Button asChild className="w-full">
+                <CardFooter className="mt-auto">
+                    <Button asChild className="w-full" size="sm">
                     <Link href={action.href}>
-                        Go to {action.title} <ArrowRight className="ml-2 size-4" />
+                        {action.title} <ArrowRight className="ml-2 size-4" />
                     </Link>
                     </Button>
                 </CardFooter>
