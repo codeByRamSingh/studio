@@ -25,7 +25,7 @@ import {
   } from "@/components/ui/chart"
 import { students } from "@/lib/data";
 import { format } from "date-fns";
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { PieChart, Pie, Cell, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 type CourseData = {
     name: string;
@@ -65,6 +65,19 @@ export function TrustDashboard() {
         date: fee.date
     }))
   ).sort((a, b) => b.date.getTime() - a.date.getTime()).slice(0, 5);
+
+  const feesByYear = students
+    .flatMap(student => student.feeHistory)
+    .reduce((acc, fee) => {
+        const year = format(fee.date, 'yyyy');
+        acc[year] = (acc[year] || 0) + fee.amount;
+        return acc;
+    }, {} as Record<string, number>);
+
+  const yearlyFeeData = Object.keys(feesByYear).map(year => ({
+    year,
+    total: feesByYear[year]
+  })).sort((a, b) => parseInt(a.year) - parseInt(b.year));
 
 
   return (
@@ -177,6 +190,28 @@ export function TrustDashboard() {
                 </Table>
             </CardContent>
         </Card>
+
+        <Card className="lg:col-span-5">
+            <CardHeader>
+                <CardTitle>Year-wise Fee Collection</CardTitle>
+                <CardDescription>Total submitted fees for each academic year.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ChartContainer config={{}} className="min-h-[300px] w-full">
+                    <BarChart data={yearlyFeeData}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis dataKey="year" tickLine={false} tickMargin={10} axisLine={false} />
+                        <YAxis tickFormatter={(value) => formatCurrency(value as number)} />
+                        <Tooltip
+                            cursor={false}
+                            content={<ChartTooltipContent formatter={(value) => formatCurrency(value as number)} hideLabel />}
+                        />
+                        <Bar dataKey="total" fill="var(--color-primary)" radius={8} />
+                    </BarChart>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+
        </div>
     </div>
   );
