@@ -26,7 +26,7 @@ const adminActions = [
       title: "Student Management",
       description: "Manage student admissions, profiles, and records.",
       icon: GraduationCap,
-      href: "/users/select-role?role=Student",
+      href: "/dashboard/students",
     },
     {
       title: "Staff Management",
@@ -85,7 +85,7 @@ export function AdminDashboard() {
         title="Admin Dashboard"
         description="System overview and management tools."
       />
-      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {adminActions.map((action) => (
             <Card key={action.title} className="flex flex-col justify-between text-sm">
                 <CardHeader className="p-4">

@@ -10,6 +10,7 @@ import {
   FileText,
   UserPlus,
   BookOpen,
+  GraduationCap,
 } from "lucide-react";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
@@ -59,6 +60,12 @@ const adminLinks = [
       icon: BookOpen,
       roles: ["Admin"],
     },
+    {
+      href: "/dashboard/students",
+      label: "Students",
+      icon: GraduationCap,
+      roles: ["Admin"],
+    }
 ]
 
 const nonAdminLinks = [
