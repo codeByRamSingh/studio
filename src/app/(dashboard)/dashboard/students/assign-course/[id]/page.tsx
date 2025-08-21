@@ -11,14 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -40,31 +32,50 @@ export default function AssignCoursePage() {
   const studentId = parseInt(params.id as string, 10);
   const [student, setStudent] = useState<Student | undefined>(undefined);
   const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedSession, setSelectedSession] = useState("");
+  const [availableSessions, setAvailableSessions] = useState<{ id: number; name: string; }[]>([]);
 
   useEffect(() => {
     const foundStudent = students.find(s => s.id === studentId);
     if (foundStudent) {
         setStudent(foundStudent);
         setSelectedCourse(foundStudent.course || "");
+        setSelectedSession(foundStudent.session || "");
     } else {
         toast({ variant: "destructive", title: "Student not found" });
         router.push('/dashboard/students');
     }
   }, [studentId, router, toast]);
 
+  useEffect(() => {
+    if (selectedCourse) {
+        const course = courses.find(c => c.courseName === selectedCourse);
+        if (course) {
+            setAvailableSessions(course.sessions);
+        } else {
+            setAvailableSessions([]);
+        }
+        setSelectedSession(""); // Reset session when course changes
+    } else {
+        setAvailableSessions([]);
+    }
+  }, [selectedCourse]);
+
+
   const handleAssignCourse = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedCourse) {
-        toast({ variant: "destructive", title: "Please select a course." });
+    if (!selectedCourse || !selectedSession) {
+        toast({ variant: "destructive", title: "Please select a course and session." });
         return;
     }
     
     const studentIndex = students.findIndex(s => s.id === studentId);
     if (studentIndex > -1) {
         students[studentIndex].course = selectedCourse;
+        students[studentIndex].session = selectedSession;
         toast({
             title: "Course Assigned!",
-            description: `${student?.studentName} has been enrolled in ${selectedCourse}.`,
+            description: `${student?.studentName} has been enrolled in ${selectedCourse} (${selectedSession}).`,
         });
         router.push("/dashboard/students");
     } else {
@@ -74,27 +85,40 @@ export default function AssignCoursePage() {
 
   return (
     <div className="space-y-8">
-        <PageHeader title={`Assign Course - Step 2`} description={`Select a course for ${student?.studentName || 'the student'}.`} />
+        <PageHeader title={`Assign Course - Step 2`} description={`Select a course and session for ${student?.studentName || 'the student'}.`} />
         <div className="flex justify-center">
             <Card className="w-full max-w-2xl">
                 <form onSubmit={handleAssignCourse}>
                     <CardHeader>
-                        <CardTitle>Select a Course</CardTitle>
+                        <CardTitle>Select a Course and Session</CardTitle>
                         <CardDescription>
-                            Choose the course the student will be enrolled in.
+                            Choose the course and session the student will be enrolled in.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-6">
-                        <div className="grid gap-2">
-                            <Label htmlFor="course">Course</Label>
-                             <Select value={selectedCourse} onValueChange={setSelectedCourse} required>
-                                <SelectTrigger><SelectValue placeholder="Select Course" /></SelectTrigger>
-                                <SelectContent>
-                                    {courses.map(course => (
-                                        <SelectItem key={course.id} value={course.courseName}>{course.courseName}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                             <div className="grid gap-2">
+                                <Label htmlFor="course">Course</Label>
+                                <Select value={selectedCourse} onValueChange={setSelectedCourse} required>
+                                    <SelectTrigger><SelectValue placeholder="Select Course" /></SelectTrigger>
+                                    <SelectContent>
+                                        {courses.map(course => (
+                                            <SelectItem key={course.id} value={course.courseName}>{course.courseName}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="session">Session</Label>
+                                <Select value={selectedSession} onValueChange={setSelectedSession} required disabled={!selectedCourse}>
+                                    <SelectTrigger><SelectValue placeholder="Select Session" /></SelectTrigger>
+                                    <SelectContent>
+                                        {availableSessions.map(session => (
+                                            <SelectItem key={session.id} value={session.name}>{session.name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
                         <Button className="w-full mt-4" type="submit">
                            Finish Admission

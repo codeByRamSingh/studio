@@ -27,6 +27,7 @@ import {
 import { students } from "@/lib/data";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
 export default function StudentManagementPage() {
   return (
@@ -56,6 +57,7 @@ export default function StudentManagementPage() {
                 <TableHead>Student ID</TableHead>
                 <TableHead>Student Name</TableHead>
                 <TableHead>Course</TableHead>
+                <TableHead>Session</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -67,6 +69,9 @@ export default function StudentManagementPage() {
                   </TableCell>
                   <TableCell>{student.studentName}</TableCell>
                   <TableCell>{student.course}</TableCell>
+                  <TableCell>
+                    <Badge variant="outline">{student.session}</Badge>
+                  </TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

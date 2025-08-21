@@ -88,6 +88,7 @@ export default function AddUserPage() {
             gender,
             physicallyDisabled: physicallyDisabled === "Yes",
             course: '', // Course will be assigned in the next step
+            session: '', // Session will be assigned in the next step
         };
         students.push(newStudent);
 
