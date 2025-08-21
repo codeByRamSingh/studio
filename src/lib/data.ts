@@ -62,36 +62,7 @@ export let courses: {
     courseName: string;
     subjects: string[];
     sessions: { id: number; name: string; startDate: Date; endDate: Date; }[];
-}[] = [
-  {
-    id: 1,
-    courseCode: "ELEC-101",
-    courseName: "Electrician",
-    subjects: ["Basic Electrical Engineering", "Wiring Practices", "Electrical Machines"],
-    sessions: [],
-  },
-  {
-    id: 2,
-    courseCode: "FIT-101",
-    courseName: "Fitter",
-    subjects: ["Mechanical Drawing", "Workshop Calculations", "Fitting Theory"],
-    sessions: [],
-  },
-  {
-    id: 3,
-    courseCode: "WELD-101",
-    courseName: "Welder",
-    subjects: ["Welding Techniques", "Material Science", "Safety Procedures"],
-    sessions: [],
-  },
-  {
-    id: 4,
-    courseCode: "MECH-101",
-    courseName: "Mechanic (Motor Vehicle)",
-    subjects: ["Engine Systems", "Automotive Electricals", "Chassis and Body"],
-    sessions: [],
-  },
-];
+}[] = [];
 
 
 export const events = [
