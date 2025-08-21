@@ -47,7 +47,12 @@ export function PublicHeader() {
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-4">
           {user ? (
-            <UserNav />
+            <>
+              <Button asChild>
+                <Link href="/dashboard">Dashboard</Link>
+              </Button>
+              <UserNav />
+            </>
           ) : (
             <Button variant="outline" asChild>
               <Link href="/login">Login</Link>
