@@ -40,7 +40,7 @@ function formatCurrency(amount: number) {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(amount);
-    return `₹${formattedAmount}`;
+    return `Rs. ${formattedAmount}`;
 }
 
 export function TrustDashboard() {

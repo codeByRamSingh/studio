@@ -23,7 +23,7 @@ function formatCurrency(amount: number) {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(amount);
-    return `₹${formattedAmount}`;
+    return `Rs. ${formattedAmount}`;
 }
 
 function DetailItem({ label, value }: { label: string; value: string | undefined | null }) {
