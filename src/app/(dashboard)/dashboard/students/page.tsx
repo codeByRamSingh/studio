@@ -124,10 +124,10 @@ export default function StudentManagementPage() {
                         <DropdownMenuContent align="end">
                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           <DropdownMenuItem asChild>
-                            <Link href={`#`}>View Details</Link>
+                            <Link href={`/dashboard/students/view/${student.id}`}>View Details</Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
-                            <Link href={`#`}>Edit Student</Link>
+                            <Link href={`/dashboard/students/edit/${student.id}`}>Edit Student</Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
                             <Link href={`#`}>Submit Fee</Link>
