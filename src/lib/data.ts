@@ -21,7 +21,7 @@ export const users = [
   }
 ];
 
-export const students = [
+export let students = [
     {
         id: 1,
         studentId: 'STU1',
@@ -56,7 +56,7 @@ export const students = [
     }
 ];
 
-export const courses = [
+export let courses = [
   {
     id: 1,
     courseCode: "ELEC-101",
