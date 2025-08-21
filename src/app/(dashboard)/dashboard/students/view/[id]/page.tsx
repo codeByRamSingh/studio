@@ -24,6 +24,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 
+function formatCurrency(amount: number) {
+    const formattedAmount = new Intl.NumberFormat('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
+    return `₹${formattedAmount}`;
+}
+
 function DetailItem({ label, value }: { label: string; value: string | undefined | null }) {
   return (
     <div className="flex flex-col">
@@ -165,19 +173,19 @@ export default function ViewStudentPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <DetailItem label="Course" value={student.course} />
                     <DetailItem label="Session" value={student.session} />
-                    <DetailItem label="Course Fee" value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(student.courseFee)} />
+                    <DetailItem label="Course Fee" value={formatCurrency(student.courseFee)} />
                 </div>
             </div>
             <Separator />
             <div>
                 <h3 className="text-lg font-semibold mb-4 text-primary">Fee Ledger</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <DetailItem label="Total Course Fee" value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(student.courseFee)} />
-                    <DetailItem label="Total Submitted" value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalPaid)} />
+                    <DetailItem label="Total Course Fee" value={formatCurrency(student.courseFee)} />
+                    <DetailItem label="Total Submitted" value={formatCurrency(totalPaid)} />
                     <div>
                         <span className="text-sm font-medium text-muted-foreground">Remaining Due</span>
                         <Badge variant={remainingDue > 0 ? 'destructive' : 'default'} className="text-base font-semibold ml-2">
-                           {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(remainingDue)}
+                           {formatCurrency(remainingDue)}
                         </Badge>
                     </div>
                 </div>
@@ -192,7 +200,7 @@ export default function ViewStudentPage() {
                         {student.feeHistory.length > 0 ? student.feeHistory.map((payment, index) => (
                             <TableRow key={index}>
                                 <TableCell>{format(payment.date, "PPP")}</TableCell>
-                                <TableCell className="text-right">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(payment.amount)}</TableCell>
+                                <TableCell className="text-right">{formatCurrency(payment.amount)}</TableCell>
                             </TableRow>
                         )) : (
                             <TableRow>

@@ -25,7 +25,7 @@ import {
   } from "@/components/ui/chart"
 import { students } from "@/lib/data";
 import { format } from "date-fns";
-import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, Legend } from 'recharts';
 
 type CourseData = {
     name: string;
@@ -36,7 +36,11 @@ type CourseData = {
 const COURSE_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF195E'];
 
 function formatCurrency(amount: number) {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
+    const formattedAmount = new Intl.NumberFormat('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
+    return `₹${formattedAmount}`;
 }
 
 export function TrustDashboard() {
@@ -133,7 +137,7 @@ export function TrustDashboard() {
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalSubmittedFee)}</TableCell>
                             <TableCell className="text-right font-bold">{formatCurrency(grandTotalDue)}</TableCell>
                         </TableRow>
-                    </TableFooter>
+                    </TableFooter>.
                 </Table>
             </CardContent>
         </Card>

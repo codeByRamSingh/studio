@@ -18,6 +18,14 @@ import { students } from "@/lib/data";
 import { PageHeader } from "@/components/page-header";
 import type { Student } from "@/lib/data";
 
+function formatCurrency(amount: number) {
+    const formattedAmount = new Intl.NumberFormat('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
+    return `₹${formattedAmount}`;
+}
+
 function DetailItem({ label, value }: { label: string; value: string | undefined | null }) {
     return (
       <div className="flex flex-col">
@@ -59,7 +67,7 @@ export default function SubmitFeePage() {
     }
 
     if (amount > remainingDue) {
-        toast({ variant: "destructive", title: "Amount exceeds due", description: `You can only pay up to the remaining amount of ${new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(remainingDue)}.` });
+        toast({ variant: "destructive", title: "Amount exceeds due", description: `You can only pay up to the remaining amount of ${formatCurrency(remainingDue)}.` });
         return;
     }
     
@@ -68,7 +76,7 @@ export default function SubmitFeePage() {
         students[studentIndex].feeHistory.push({ amount, date: new Date() });
         toast({
             title: "Fee Submitted Successfully!",
-            description: `${new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount)} has been submitted for ${student?.studentName}.`,
+            description: `${formatCurrency(amount)} has been submitted for ${student?.studentName}.`,
         });
         router.push("/dashboard/students");
     } else {
@@ -99,9 +107,9 @@ export default function SubmitFeePage() {
                             <DetailItem label="Course" value={`${student.course} (${student.session})`} />
                         </div>
                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 rounded-lg border">
-                            <DetailItem label="Total Course Fee" value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(student.courseFee)} />
-                             <DetailItem label="Total Paid" value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(totalPaid)} />
-                            <DetailItem label="Remaining Due" value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(remainingDue)} />
+                            <DetailItem label="Total Course Fee" value={formatCurrency(student.courseFee)} />
+                             <DetailItem label="Total Paid" value={formatCurrency(totalPaid)} />
+                            <DetailItem label="Remaining Due" value={formatCurrency(remainingDue)} />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="feeAmount">Amount to Submit (in Rupees)</Label>
