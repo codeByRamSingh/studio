@@ -11,7 +11,6 @@ import {
 import {
   GraduationCap,
   Users,
-  Receipt,
   Megaphone,
   FileText,
   DollarSign,
@@ -35,8 +34,12 @@ const adminActions = [
       icon: Users,
       href: "/users/select-role?role=Staff",
     },
-      
-  
+    {
+        title: "Course Management",
+        description: "Manage courses, subjects, and curriculum.",
+        icon: BookOpen,
+        href: "/courses",
+    },
     {
       title: "Issue Notice",
       description: "Create and publish announcements for all users.",
@@ -82,7 +85,7 @@ export function AdminDashboard() {
         title="Admin Dashboard"
         description="System overview and management tools."
       />
-      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {adminActions.map((action) => (
             <Card key={action.title} className="flex flex-col justify-between text-sm">
                 <CardHeader className="p-4">
@@ -93,7 +96,7 @@ export function AdminDashboard() {
                         <action.icon className="h-4 w-4 text-muted-foreground" />
                     </div>
                 </CardHeader>
-                <CardContent className="p-4 pt-0">
+                <CardContent className="flex-grow p-4 pt-0">
                     <CardDescription className="text-xs">{action.description}</CardDescription>
                 </CardContent>
                 <CardFooter className="p-4 pt-0">
