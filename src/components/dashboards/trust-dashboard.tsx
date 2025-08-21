@@ -24,14 +24,20 @@ import {
   } from "@/components/ui/chart"
 import { students } from "@/lib/data";
 import { format } from "date-fns";
-import { PieChart, Pie, Cell, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 type CourseData = {
     name: string;
     value: number;
+    fill: string;
 };
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF195E'];
+const FEE_COLORS = {
+    'Submitted Fee': '#00C49F',
+    'Due Fee': '#FF8042',
+}
+
+const COURSE_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF195E'];
 
 function formatCurrency(amount: number) {
     return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
@@ -43,6 +49,11 @@ export function TrustDashboard() {
   const totalSubmittedFee = students.reduce((acc, student) => acc + student.feeHistory.reduce((feeAcc, fee) => feeAcc + fee.amount, 0), 0);
   const totalDue = totalCourseFee - totalSubmittedFee;
 
+  const feeChartData: CourseData[] = [
+      { name: 'Submitted Fee', value: totalSubmittedFee, fill: FEE_COLORS['Submitted Fee'] },
+      { name: 'Due Fee', value: totalDue, fill: FEE_COLORS['Due Fee'] },
+  ]
+
   const courseCounts = students.reduce((acc, student) => {
     if(student.course) {
         acc[student.course] = (acc[student.course] || 0) + 1;
@@ -50,9 +61,10 @@ export function TrustDashboard() {
     return acc;
   }, {} as Record<string, number>);
   
-  const chartData: CourseData[] = Object.keys(courseCounts).map(courseName => ({
+  const courseChartData: CourseData[] = Object.keys(courseCounts).map((courseName, index) => ({
     name: courseName,
-    value: courseCounts[courseName]
+    value: courseCounts[courseName],
+    fill: COURSE_COLORS[index % COURSE_COLORS.length]
   }));
 
   const recentTransactions = students.flatMap(student => 
@@ -70,61 +82,35 @@ export function TrustDashboard() {
         title="Trust Dashboard"
         description="High-level reports and analytics for the governing trust."
       />
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-            <CardHeader>
-                <CardTitle>Total Course Fees</CardTitle>
-                <CardDescription>The total fees for all enrolled students.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <p className="text-3xl font-bold">{formatCurrency(totalCourseFee)}</p>
-            </CardContent>
-        </Card>
-        <Card>
-            <CardHeader>
-                <CardTitle>Total Submitted Fees</CardTitle>
-                <CardDescription>The total amount of fees collected so far.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <p className="text-3xl font-bold">{formatCurrency(totalSubmittedFee)}</p>
-            </CardContent>
-        </Card>
-        <Card>
-            <CardHeader>
-                <CardTitle>Total Dues</CardTitle>
-                <CardDescription>The total outstanding balance to be collected.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                 <p className="text-3xl font-bold text-destructive">{formatCurrency(totalDue)}</p>
-            </CardContent>
-        </Card>
-      </div>
-
        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
         <Card className="lg:col-span-2">
             <CardHeader>
-                <CardTitle>Course-wise Student Distribution</CardTitle>
-                <CardDescription>Number of students in each course.</CardDescription>
+                <CardTitle>Financial Overview</CardTitle>
+                <CardDescription>Total fee breakdown: {formatCurrency(totalCourseFee)}</CardDescription>
             </CardHeader>
             <CardContent>
-                <ChartContainer config={{}} className="min-h-[200px] w-full">
+                <ChartContainer config={{}} className="min-h-[250px] w-full">
                     <PieChart>
                         <Tooltip
                             cursor={false}
-                            content={<ChartTooltipContent hideLabel />}
+                            content={<ChartTooltipContent 
+                                hideLabel
+                                formatter={(value, name) => [formatCurrency(value as number), name]}
+                            />}
                         />
+                         <Legend />
                         <Pie
-                            data={chartData}
+                            data={feeChartData}
                             dataKey="value"
                             nameKey="name"
                             cx="50%"
                             cy="50%"
                             outerRadius={80}
-                            fill="#8884d8"
-                            label={(entry) => `${entry.name} (${entry.value})`}
+                            labelLine={false}
+                            label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                         >
-                            {chartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            {feeChartData.map((entry) => (
+                                <Cell key={entry.name} fill={entry.fill} />
                             ))}
                         </Pie>
                     </PieChart>
@@ -132,6 +118,35 @@ export function TrustDashboard() {
             </CardContent>
         </Card>
         <Card className="lg:col-span-3">
+            <CardHeader>
+                <CardTitle>Course-wise Student Distribution</CardTitle>
+                <CardDescription>Number of students in each course.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ChartContainer config={{}} className="min-h-[250px] w-full">
+                    <PieChart>
+                        <Tooltip
+                            cursor={false}
+                            content={<ChartTooltipContent hideLabel />}
+                        />
+                        <Pie
+                            data={courseChartData}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={80}
+                            label={(entry) => `${entry.name} (${entry.value})`}
+                        >
+                            {courseChartData.map((entry) => (
+                                <Cell key={entry.name} fill={entry.fill} />
+                            ))}
+                        </Pie>
+                    </PieChart>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+        <Card className="lg:col-span-5">
             <CardHeader>
                 <CardTitle>Recent Transactions</CardTitle>
                 <CardDescription>The last 5 fee payments received.</CardDescription>
