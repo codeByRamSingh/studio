@@ -14,7 +14,7 @@ import { notices } from "@/lib/data";
 import { ArrowRight, Megaphone } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 export function StaffDashboard() {
   const staffNotices = notices.filter(notice => notice.audience.includes("Staff"));
