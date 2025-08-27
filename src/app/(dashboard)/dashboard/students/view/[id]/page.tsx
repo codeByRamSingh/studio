@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -175,6 +176,30 @@ export default function ViewStudentPage() {
                     <DetailItem label="Session" value={student.session} />
                     <DetailItem label="Course Fee" value={formatCurrency(student.courseFee)} />
                 </div>
+            </div>
+             <Separator />
+            <div>
+                <h3 className="text-lg font-semibold mb-4 text-primary">Uploaded Documents</h3>
+                 {student.documents && student.documents.length > 0 ? (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Document Name</TableHead>
+                                <TableHead>File Name</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {student.documents.map((doc, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{doc.name}</TableCell>
+                                    <TableCell>{doc.file.name}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                ) : (
+                    <p className="text-sm text-muted-foreground">No documents have been uploaded for this student.</p>
+                )}
             </div>
             <Separator />
             <div>

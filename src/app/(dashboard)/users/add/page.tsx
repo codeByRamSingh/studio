@@ -27,6 +27,7 @@ import { PageHeader } from "@/components/page-header";
 import { Textarea } from "@/components/ui/textarea";
 import type { Student, Staff } from "@/lib/data";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
 
 export default function AddUserPage() {
   const router = useRouter();
@@ -46,6 +47,9 @@ export default function AddUserPage() {
   const [religion, setReligion] = useState("");
   const [gender, setGender] = useState("");
   const [physicallyDisabled, setPhysicallyDisabled] = useState("No");
+  const [documents, setDocuments] = useState<{ name: string; file: File }[]>([]);
+  const [documentName, setDocumentName] = useState("");
+  const [documentFile, setDocumentFile] = useState<File | null>(null);
 
   // Staff specific state
   const [staffName, setStaffName] = useState("");
@@ -62,6 +66,19 @@ export default function AddUserPage() {
       setRole(roleFromQuery);
     }
   }, [searchParams]);
+
+  const handleUploadDocument = () => {
+    if (documentName && documentFile) {
+        setDocuments([...documents, { name: documentName, file: documentFile }]);
+        toast({ title: "Document Uploaded", description: `"${documentName}" has been attached.` });
+        setDocumentName("");
+        setDocumentFile(null);
+        const fileInput = document.getElementById('documentFile') as HTMLInputElement;
+        if(fileInput) fileInput.value = "";
+    } else {
+        toast({ variant: "destructive", title: "Upload Failed", description: "Please provide both a document name and a file." });
+    }
+  };
 
   const handleAddUser = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,7 +112,8 @@ export default function AddUserPage() {
             course: '',
             session: '',
             courseFee: 0,
-            feeHistory: []
+            feeHistory: [],
+            documents,
         };
         students.push(newStudent);
         users.push({ id: users.length + 1, username: studentId, password: generatedPassword, role: "Student" });
@@ -141,7 +159,7 @@ export default function AddUserPage() {
             <CardTitle className="text-2xl">Student Registration - Step 1</CardTitle>
             <CardDescription>Enter the student's personal details to begin enrollment. Course selection is the next step.</CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-4">
+        <CardContent className="space-y-6">
             <input type="hidden" name="role" value="Student" />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="grid gap-2">
@@ -203,6 +221,36 @@ export default function AddUserPage() {
                 <Label htmlFor="address">Address</Label>
                 <Textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
             </div>
+
+            <Separator />
+            
+            <div>
+                 <h3 className="text-lg font-semibold mb-4 text-primary">Document Upload</h3>
+                 <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <div className="grid gap-2 md:col-span-1">
+                        <Label htmlFor="documentName">Document Name</Label>
+                        <Input id="documentName" value={documentName} onChange={(e) => setDocumentName(e.target.value)} />
+                    </div>
+                    <div className="grid gap-2 md:col-span-1">
+                        <Label htmlFor="documentFile">Attach Document</Label>
+                        <Input id="documentFile" type="file" onChange={(e) => setDocumentFile(e.target.files ? e.target.files[0] : null)} />
+                    </div>
+                    <div className="grid gap-2 md:col-span-1 self-end">
+                        <Button type="button" onClick={handleUploadDocument}>Upload</Button>
+                    </div>
+                 </div>
+                 {documents.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                        <h4 className="font-medium">Attached Documents:</h4>
+                        <ul className="list-disc list-inside rounded-md border p-2">
+                            {documents.map((doc, index) => (
+                                <li key={index}>{doc.name} ({doc.file.name})</li>
+                            ))}
+                        </ul>
+                    </div>
+                 )}
+            </div>
+
             <Button className="w-full mt-4" type="submit">Save and Proceed to Course Selection</Button>
             <div className="mt-4 text-sm text-center text-muted-foreground">A unique Student ID and password will be automatically generated.</div>
         </CardContent>

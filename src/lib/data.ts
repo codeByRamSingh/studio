@@ -17,6 +17,7 @@ export type Student = {
     session: string;
     courseFee: number;
     feeHistory: { amount: number; date: Date }[];
+    documents: { name: string; file: File }[];
 };
 
 export type Staff = {
@@ -99,7 +100,8 @@ export let students: Student[] = [
         courseFee: 15000,
         feeHistory: [
             { amount: 10000, date: new Date('2024-08-15') }
-        ]
+        ],
+        documents: [],
     },
     {
         id: 2,
@@ -117,7 +119,8 @@ export let students: Student[] = [
         course: "ITI Fitter",
         session: "Batch A 2024",
         courseFee: 12000,
-        feeHistory: []
+        feeHistory: [],
+        documents: [],
     }
 ];
 
