@@ -31,6 +31,7 @@ export type Staff = {
     designation: string;
     salary: number;
     dateJoined: Date;
+    documents: { name: string; file: File }[];
 }
 
 export const users = [
@@ -78,6 +79,7 @@ export let staff: Staff[] = [
         designation: 'Teacher',
         salary: 50000,
         dateJoined: new Date('2022-08-01'),
+        documents: [],
     }
 ];
 

@@ -16,6 +16,7 @@ import { staff, users } from "@/lib/data";
 import type { Staff } from "@/lib/data";
 import { Separator } from "@/components/ui/separator";
 import { format } from "date-fns";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 function formatCurrency(amount: number) {
     const formattedAmount = new Intl.NumberFormat('en-IN', {
@@ -121,6 +122,30 @@ export default function ViewStaffPage() {
                     <DetailItem label="Date Joined" value={format(staffMember.dateJoined, "PPP")} />
                     <DetailItem label="Salary" value={formatCurrency(staffMember.salary)} />
                 </div>
+            </div>
+            <Separator />
+            <div>
+                <h3 className="text-lg font-semibold mb-4 text-primary">Uploaded Documents</h3>
+                 {staffMember.documents && staffMember.documents.length > 0 ? (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Document Name</TableHead>
+                                <TableHead>File Name</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {staffMember.documents.map((doc, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{doc.name}</TableCell>
+                                    <TableCell>{doc.file.name}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                ) : (
+                    <p className="text-sm text-muted-foreground">No documents have been uploaded for this staff member.</p>
+                )}
             </div>
         </CardContent>
       </Card>
